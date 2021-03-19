@@ -4,7 +4,7 @@
             "outputFile": "/Users/gomez/Developer/runehunter/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-pt/values-pt.xml",
             "map": [
                 {
-                    "source": "/Users/gomez/.gradle/caches/transforms-2/files-2.1/9f7e7a548ad00e2e3c3268a409525997/appcompat-1.1.0/res/values-pt/values-pt.xml",
+                    "source": "/Users/gomez/.gradle/caches/transforms-3/f56b2f46fe39c9d1f9cb87dafeb9cf53/transformed/appcompat-1.1.0/res/values-pt/values-pt.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/Users/gomez/.gradle/caches/transforms-2/files-2.1/5df47116837044e526e3d968340e6756/core-1.2.0/res/values-pt/values-pt.xml",
+                    "source": "/Users/gomez/.gradle/caches/transforms-3/9e9d5f4241eab3964a2eecc681dc474a/transformed/core-1.2.0/res/values-pt/values-pt.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
