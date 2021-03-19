@@ -77,9 +77,9 @@ INJECTED from /Users/gomez/Developer/runehunter/android/app/src/debug/AndroidMan
 INJECTED from /Users/gomez/Developer/runehunter/android/app/src/debug/AndroidManifest.xml:2:1-8:12
 INJECTED from /Users/gomez/Developer/runehunter/android/app/src/debug/AndroidManifest.xml:2:1-8:12
 	package
-		ADDED from /Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:2:3-24
+		ADDED from /Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:2:3-23
 		INJECTED from /Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:2:3-24
+		ADDED from /Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:2:3-23
 		INJECTED from /Users/gomez/Developer/runehunter/android/app/src/debug/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml
@@ -165,7 +165,7 @@ ADDED from /Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifes
 		ADDED from /Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:13:77-131
 	android:name
 		ADDED from /Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:13:20-76
-activity#com.lavapit.MainActivity
+activity#ws.gomez.1.MainActivity
 ADDED from /Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:14:9-25:18
 	android:screenOrientation
 		ADDED from /Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:17:9-46

@@ -58,7 +58,7 @@
 35
 36    <application
 36-->/Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:6:5-27:19
-37        android:name="com.lavapit.MainApplication"
+37        android:name="ws.gomez.1.MainApplication"
 37-->/Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:7:7-38
 38        android:allowBackup="false"
 38-->/Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:11:7-34
@@ -85,7 +85,7 @@
 50
 51        <activity
 51-->/Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:14:9-25:18
-52            android:name="com.lavapit.MainActivity"
+52            android:name="ws.gomez.1.MainActivity"
 52-->/Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:15:9-37
 53            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
 53-->/Users/gomez/Developer/runehunter/android/app/src/main/AndroidManifest.xml:18:9-86
