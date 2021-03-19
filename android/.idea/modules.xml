@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lavapit.iml" filepath="$PROJECT_DIR$/.idea/modules/lavapit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/lavapit.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/lavapit.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/256036533/lavapit.react-native-admob.iml" filepath="$PROJECT_DIR$/.idea/modules/256036533/lavapit.react-native-admob.iml" />
+    </modules>
+  </component>
+</project>
