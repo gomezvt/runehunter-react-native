@@ -129,11 +129,12 @@ android {
     }
 
     defaultConfig {
-        applicationId "ws.gomez.1"
+        applicationId "ws.gomez"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     splits {
         abi {

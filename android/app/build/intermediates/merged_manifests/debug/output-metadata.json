@@ -4,7 +4,7 @@
     "type": "MERGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "ws.gomez.1",
+  "applicationId": "ws.gomez",
   "variantName": "debug",
   "elements": [
     {
