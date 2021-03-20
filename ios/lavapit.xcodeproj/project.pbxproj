@@ -665,7 +665,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ws.gomez;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lavapit;
 				PRODUCT_NAME = lavapit;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -687,7 +687,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ws.gomez;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lavapit;
 				PRODUCT_NAME = lavapit;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

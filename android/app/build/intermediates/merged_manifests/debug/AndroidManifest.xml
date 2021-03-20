@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ws.gomez"
+    package="com.lavapit"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -69,7 +69,7 @@
 
         <provider
             android:name="com.google.android.gms.ads.MobileAdsInitProvider"
-            android:authorities="ws.gomez.mobileadsinitprovider"
+            android:authorities="com.lavapit.mobileadsinitprovider"
             android:exported="false"
             android:initOrder="100" />
 
@@ -84,7 +84,7 @@
 
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="ws.gomez.workmanager-init"
+            android:authorities="com.lavapit.workmanager-init"
             android:directBootAware="false"
             android:exported="false"
             android:multiprocess="true" />

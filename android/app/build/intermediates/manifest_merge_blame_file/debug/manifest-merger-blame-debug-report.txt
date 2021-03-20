@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="ws.gomez"
+3    package="com.lavapit"
 4    android:versionCode="1"
 5    android:versionName="1.0" >
 6
@@ -125,7 +125,7 @@
 70-->[com.google.android.gms:play-services-ads-lite:19.8.0] /Users/gomez/.gradle/caches/transforms-3/bb578fd16adf864d9354bc31f2571f0b/transformed/jetified-play-services-ads-lite-19.8.0/AndroidManifest.xml:54:9-58:39
 71            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
 71-->[com.google.android.gms:play-services-ads-lite:19.8.0] /Users/gomez/.gradle/caches/transforms-3/bb578fd16adf864d9354bc31f2571f0b/transformed/jetified-play-services-ads-lite-19.8.0/AndroidManifest.xml:55:13-76
-72            android:authorities="ws.gomez.mobileadsinitprovider"
+72            android:authorities="com.lavapit.mobileadsinitprovider"
 72-->[com.google.android.gms:play-services-ads-lite:19.8.0] /Users/gomez/.gradle/caches/transforms-3/bb578fd16adf864d9354bc31f2571f0b/transformed/jetified-play-services-ads-lite-19.8.0/AndroidManifest.xml:56:13-73
 73            android:exported="false"
 73-->[com.google.android.gms:play-services-ads-lite:19.8.0] /Users/gomez/.gradle/caches/transforms-3/bb578fd16adf864d9354bc31f2571f0b/transformed/jetified-play-services-ads-lite-19.8.0/AndroidManifest.xml:57:13-37
@@ -152,7 +152,7 @@
 85-->[androidx.work:work-runtime:2.1.0] /Users/gomez/.gradle/caches/transforms-3/e63ebdd5824c8169d25ad34e60d3463d/transformed/work-runtime-2.1.0/AndroidManifest.xml:30:9-36:35
 86            android:name="androidx.work.impl.WorkManagerInitializer"
 86-->[androidx.work:work-runtime:2.1.0] /Users/gomez/.gradle/caches/transforms-3/e63ebdd5824c8169d25ad34e60d3463d/transformed/work-runtime-2.1.0/AndroidManifest.xml:31:13-69
-87            android:authorities="ws.gomez.workmanager-init"
+87            android:authorities="com.lavapit.workmanager-init"
 87-->[androidx.work:work-runtime:2.1.0] /Users/gomez/.gradle/caches/transforms-3/e63ebdd5824c8169d25ad34e60d3463d/transformed/work-runtime-2.1.0/AndroidManifest.xml:32:13-68
 88            android:directBootAware="false"
 88-->[androidx.work:work-runtime:2.1.0] /Users/gomez/.gradle/caches/transforms-3/e63ebdd5824c8169d25ad34e60d3463d/transformed/work-runtime-2.1.0/AndroidManifest.xml:33:13-44

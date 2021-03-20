@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "ws.gomez"
+        applicationId "com.lavapit"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
