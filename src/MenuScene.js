@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { styles } from '../styles';
 import LevelScene from './LevelScene';
 
@@ -12,7 +12,7 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
-export default class Menu extends Component {
+export default class MenuScene extends PureComponent {
   constructor(props) {
     super(props);
   }
@@ -24,7 +24,7 @@ export default class Menu extends Component {
     const startButton = require('../img/start.png');
     return (
         <>
-          <Text style={styles.title}>Lava Pit</Text>
+          <Text style={styles.title}>Rune Hunter</Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.props.setSceneState("hero")}>

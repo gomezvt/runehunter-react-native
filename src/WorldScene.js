@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { styles } from '../styles';
 import LevelScene from './LevelScene';
 
@@ -12,7 +12,7 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
-export default class WorldScene extends Component {
+export default class WorldScene extends PureComponent {
   constructor(props) {
     super(props);
   }
