@@ -23,41 +23,40 @@ export default class MenuScene extends PureComponent {
     // render pause button at top right corner to go back to menu etc.
     const startButton = require('../img/start.png');
     return (
-        <>
-          <Text style={styles.title}>Rune Hunter</Text>
+      <>
+        <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("hero")}>
+          <Image source={startButton} style={styles.menubutton} />
+        </TouchableOpacity>
+        <View style={{width: "100%", flexDirection: 'row', justifyContent: 'space-evenly'}}>
           <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.setSceneState("hero")}>
-            <Image source={startButton} style={styles.button} />
+            style={styles.menubutton}
+            onPress={() => { }}>
+            <Text>About</Text>
           </TouchableOpacity>
-          <View style={{ width: '100%', justifyContent: 'space-evenly', flexDirection: 'row' }}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => { }}>
-              <Text>About</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => { }}>
-              <Text>Settings</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => { }}>
-              <Text>More Games</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => { }}>
-              <Text>Facebook</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => { }}>
-              <Text>Remove Ads</Text>
-            </TouchableOpacity>
-          </View>
-        </>
+          <TouchableOpacity
+            style={styles.menubutton}
+            onPress={() => { }}>
+            <Text>Settings</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menubutton}
+            onPress={() => { }}>
+            <Text>More Games</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menubutton}
+            onPress={() => { }}>
+            <Text>Facebook</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menubutton}
+            onPress={() => { }}>
+            <Text>Remove Ads</Text>
+          </TouchableOpacity>
+        </View>
+      </>
     );
   }
 }

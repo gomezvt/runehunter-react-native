@@ -19,19 +19,36 @@ export default class HeroSelectScene extends Component {
     const startButton = require('../img/start.png');
     return (
       <>
-        <Text style={styles.title}>Hero Select Scene</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.setSceneState("menu")}>
-          <Image source={startButton} style={styles.button} />
-          <Text>Menu</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.setSceneState("world")}>
-          <Image source={startButton} style={styles.button} />
-          <Text>world</Text>
-        </TouchableOpacity>
+        <View style={{ width: "100%", flexDirection: 'row', justifyContent: 'space-evenly' }}>
+          <TouchableOpacity
+            style={styles.worldButton}
+            onPress={() => { }}>
+            <Image source={startButton} style={styles.worldButton} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.worldButton}
+            onPress={() => { }}>
+            <Image source={startButton} style={styles.worldButton} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.worldButton}
+            onPress={() => { }}>
+            <Image source={startButton} style={styles.worldButton} />
+          </TouchableOpacity>
+        </View>
+        <View style={{ width: "100%", flexDirection: 'row', justifyContent: 'space-evenly' }}>
+          <TouchableOpacity
+            style={styles.menubutton}
+            onPress={() => this.props.setSceneState("menu")}>
+            <Image source={startButton} style={styles.menubutton} />
+            <Text>Back</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menubutton}
+            onPress={() => this.props.setSceneState("world")}>
+            <Image source={startButton} style={styles.menubutton} />
+          </TouchableOpacity>
+        </View>
       </>
     );
   }

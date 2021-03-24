@@ -19,19 +19,68 @@ export default class LevelScene extends PureComponent {
     const startButton = require('../img/start.png');
     return (
       <>
-        <Text style={styles.title}>Level Scene</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.setSceneState("world")}>
-          <Image source={startButton} style={styles.button} />
-          <Text>World</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
+      <View style={{ width: "100%", height: 75, flexDirection: 'row', justifyContent: 'space-evenly' }}>
+      <TouchableOpacity
+          style={styles.menubutton}
           onPress={() => this.props.setSceneState("game")}>
-          <Image source={startButton} style={styles.button} />
-          <Text>Game</Text>
+          <Image source={startButton} style={styles.menubutton} />
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("game")}>
+          <Image source={startButton} style={styles.menubutton} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("game")}>
+          <Image source={startButton} style={styles.menubutton} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("game")}>
+          <Image source={startButton} style={styles.menubutton} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("game")}>
+          <Image source={startButton} style={styles.menubutton} />
+        </TouchableOpacity>
+      </View>
+      <View style={{ width: "100%", height: 75, flexDirection: 'row', justifyContent: 'space-evenly' }}>
+      <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("game")}>
+          <Image source={startButton} style={styles.menubutton} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("game")}>
+          <Image source={startButton} style={styles.menubutton} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("game")}>
+          <Image source={startButton} style={styles.menubutton} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("game")}>
+          <Image source={startButton} style={styles.menubutton} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("game")}>
+          <Image source={startButton} style={styles.menubutton} />
+        </TouchableOpacity>
+      </View>
+      <View style={{ width: "100%", height: 75, flexDirection: 'row', justifyContent: 'space-evenly' }}>
+        <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("world")}>
+          <Image source={startButton} style={styles.menubutton} />
+          <Text>Back</Text>
+        </TouchableOpacity>
+        </View>
       </>
     );
   }

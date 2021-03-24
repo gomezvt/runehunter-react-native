@@ -1,19 +1,18 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  menu_container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-  game_container: {
+  container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  button: {
+  menubutton: {
     height: 60,
     width: 50,
+  },
+  worldButton: {
+    height: 150,
+    width: 75,
   },
   bg: {
     width: '100%',

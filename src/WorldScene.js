@@ -24,19 +24,36 @@ export default class WorldScene extends PureComponent {
     const startButton = require('../img/start.png');
     return (
       <>
-        <Text style={styles.title}>World Scene</Text>
+      <View style={{width: "100%", flexDirection: 'row', justifyContent: 'space-evenly'}}>
         <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.setSceneState("hero")}>
-          <Image source={startButton} style={styles.button} />
-          <Text>Hero</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
+          style={styles.worldButton}
           onPress={() => this.props.setSceneState("level")}>
-          <Image source={startButton} style={styles.button} />
-          <Text>Level</Text>
+          <Image source={startButton} style={styles.worldButton} />
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.worldButton}
+          onPress={() => this.props.setSceneState("level")}>
+          <Image source={startButton} style={styles.worldButton} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.worldButton}
+          onPress={() => this.props.setSceneState("level")}>
+          <Image source={startButton} style={styles.worldButton} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.worldButton}
+          onPress={() => this.props.setSceneState("level")}>
+          <Image source={startButton} style={styles.worldButton} />
+        </TouchableOpacity>
+      </View>
+      <View style={{width: "100%", flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        <TouchableOpacity
+          style={styles.menubutton}
+          onPress={() => this.props.setSceneState("hero")}>
+          <Image source={startButton} style={styles.menubutton} />
+          <Text>Back</Text>
+        </TouchableOpacity>
+      </View>
       </>
     );
   }
