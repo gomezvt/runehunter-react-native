@@ -21,14 +21,8 @@ export default class MenuScene extends PureComponent {
     // TODO: Change path to GameScene bg after it's decided
     // render controls component here at bottom left corner of screen
     // render pause button at top right corner to go back to menu etc.
-    const startButton = require('../img/start.png');
     return (
       <>
-        <TouchableOpacity
-          style={styles.menubutton}
-          onPress={() => this.props.setSceneState("hero")}>
-          <Image source={startButton} style={styles.menubutton} />
-        </TouchableOpacity>
         <View style={{width: "100%", flexDirection: 'row', justifyContent: 'space-evenly'}}>
           <TouchableOpacity
             style={styles.menubutton}
