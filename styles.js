@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   menubutton: {
     height: 60,
-    width: 80,
+    width: 60,
     justifyContent: 'center',
     alignItems: 'center',
   },
