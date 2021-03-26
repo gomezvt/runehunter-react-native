@@ -8,7 +8,9 @@ export const styles = StyleSheet.create({
   },
   menubutton: {
     height: 60,
-    width: 50,
+    width: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   worldButton: {
     height: 150,
@@ -26,10 +28,9 @@ export const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontSize: 42,
+    fontSize: 36,
     fontWeight: 'bold',
     textAlign: 'center',
     backgroundColor: '#000000a0',
-    marginTop: 40,
   },
 });

@@ -23,7 +23,7 @@ export default class MenuScene extends PureComponent {
     // render pause button at top right corner to go back to menu etc.
     return (
       <>
-        <View style={{width: "100%", flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        <View style={{backgroundColor: "#0d2c1d", flexDirection: 'row', justifyContent: 'space-evenly'}}>
           <TouchableOpacity
             style={styles.menubutton}
             onPress={() => { }}>
@@ -33,11 +33,6 @@ export default class MenuScene extends PureComponent {
             style={styles.menubutton}
             onPress={() => { }}>
             <Text>Settings</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.menubutton}
-            onPress={() => { }}>
-            <Text>More Games</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.menubutton}

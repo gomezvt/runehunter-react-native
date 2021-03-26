@@ -36,19 +36,6 @@ export default class HeroSelectScene extends Component {
             <Image source={startButton} style={styles.worldButton} />
           </TouchableOpacity>
         </View>
-        <View style={{ width: "100%", flexDirection: 'row', justifyContent: 'space-evenly' }}>
-          <TouchableOpacity
-            style={styles.menubutton}
-            onPress={() => this.props.setSceneState("menu")}>
-            <Image source={startButton} style={styles.menubutton} />
-            <Text>Back</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.menubutton}
-            onPress={() => this.props.setSceneState("world")}>
-            <Image source={startButton} style={styles.menubutton} />
-          </TouchableOpacity>
-        </View>
       </>
     );
   }

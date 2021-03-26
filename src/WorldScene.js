@@ -46,14 +46,6 @@ export default class WorldScene extends PureComponent {
           <Image source={startButton} style={styles.worldButton} />
         </TouchableOpacity>
       </View>
-      <View style={{width: "100%", flexDirection: 'row', justifyContent: 'space-evenly'}}>
-        <TouchableOpacity
-          style={styles.menubutton}
-          onPress={() => this.props.setSceneState("hero")}>
-          <Image source={startButton} style={styles.menubutton} />
-          <Text>Back</Text>
-        </TouchableOpacity>
-      </View>
       </>
     );
   }

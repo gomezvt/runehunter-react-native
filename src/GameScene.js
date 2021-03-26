@@ -23,12 +23,6 @@ export default class GameScene extends PureComponent {
     const startButton = require('../img/start.png');
     return (
       <>
-        <TouchableOpacity
-          style={styles.menubutton}
-          onPress={() => this.props.setSceneState("level")}>
-          <Image source={startButton} style={styles.menubutton} />
-          <Text>Back</Text>
-        </TouchableOpacity>
         <GameEngine
           style={styles.game_container}
           systems={[MoveFinger]}

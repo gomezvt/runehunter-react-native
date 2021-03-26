@@ -73,14 +73,6 @@ export default class LevelScene extends PureComponent {
           <Image source={startButton} style={styles.menubutton} />
         </TouchableOpacity>
       </View>
-      <View style={{ width: "100%", height: 75, flexDirection: 'row', justifyContent: 'space-evenly' }}>
-        <TouchableOpacity
-          style={styles.menubutton}
-          onPress={() => this.props.setSceneState("world")}>
-          <Image source={startButton} style={styles.menubutton} />
-          <Text>Back</Text>
-        </TouchableOpacity>
-        </View>
       </>
     );
   }
