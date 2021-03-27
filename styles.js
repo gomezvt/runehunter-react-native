@@ -7,8 +7,14 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   menubutton: {
-    height: 60,
-    width: 60,
+    height: 40,
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  startbutton: {
+    height: 80,
+    width: 80,
     justifyContent: 'center',
     alignItems: 'center',
   },

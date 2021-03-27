@@ -16,61 +16,61 @@ export default class LevelScene extends PureComponent {
   }
 
   render() {
-    const startButton = require('../img/start.png');
+    const levelButton = require('../img/level_lock.png');
     return (
       <>
       <View style={{ width: "100%", height: 75, flexDirection: 'row', justifyContent: 'space-evenly' }}>
       <TouchableOpacity
           style={styles.menubutton}
           onPress={() => this.props.setSceneState("game")}>
-          <Image source={startButton} style={styles.menubutton} />
+          <Image source={levelButton} style={styles.menubutton} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menubutton}
           onPress={() => this.props.setSceneState("game")}>
-          <Image source={startButton} style={styles.menubutton} />
+          <Image source={levelButton} style={styles.menubutton} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menubutton}
           onPress={() => this.props.setSceneState("game")}>
-          <Image source={startButton} style={styles.menubutton} />
+          <Image source={levelButton} style={styles.menubutton} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menubutton}
           onPress={() => this.props.setSceneState("game")}>
-          <Image source={startButton} style={styles.menubutton} />
+          <Image source={levelButton} style={styles.menubutton} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menubutton}
           onPress={() => this.props.setSceneState("game")}>
-          <Image source={startButton} style={styles.menubutton} />
+          <Image source={levelButton} style={styles.menubutton} />
         </TouchableOpacity>
       </View>
       <View style={{ width: "100%", height: 75, flexDirection: 'row', justifyContent: 'space-evenly' }}>
       <TouchableOpacity
           style={styles.menubutton}
           onPress={() => this.props.setSceneState("game")}>
-          <Image source={startButton} style={styles.menubutton} />
+          <Image source={levelButton} style={styles.menubutton} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menubutton}
           onPress={() => this.props.setSceneState("game")}>
-          <Image source={startButton} style={styles.menubutton} />
+          <Image source={levelButton} style={styles.menubutton} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menubutton}
           onPress={() => this.props.setSceneState("game")}>
-          <Image source={startButton} style={styles.menubutton} />
+          <Image source={levelButton} style={styles.menubutton} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menubutton}
           onPress={() => this.props.setSceneState("game")}>
-          <Image source={startButton} style={styles.menubutton} />
+          <Image source={levelButton} style={styles.menubutton} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menubutton}
           onPress={() => this.props.setSceneState("game")}>
-          <Image source={startButton} style={styles.menubutton} />
+          <Image source={levelButton} style={styles.menubutton} />
         </TouchableOpacity>
       </View>
       </>
