@@ -27,7 +27,7 @@ export default class MenuScene extends PureComponent {
 
     return (
       <>
-        <View style={{ height: 70, marginBottom: 20, flexDirection: 'row', justifyContent: 'space-evenly' }}>
+        <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)', height: 70, marginBottom: 20, flexDirection: 'row', justifyContent: 'space-evenly' }}>
           <TouchableOpacity
             style={styles.menubutton}
             onPress={() => {}}>
@@ -43,12 +43,6 @@ export default class MenuScene extends PureComponent {
             onPress={() => {}}>
             <Image source={fbButton} style={styles.menubutton} />
           </TouchableOpacity>
-          {/* <TouchableOpacity
-            style={styles.menubutton}
-            onPress={() => {}}>
-            <Image source={fbButton} style={styles.menubutton} />
-            <Text>Rem Ads</Text>
-          </TouchableOpacity> */}
         </View>
       </>
     );

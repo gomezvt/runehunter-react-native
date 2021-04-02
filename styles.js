@@ -5,16 +5,17 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)'
   },
   menubutton: {
-    height: 40,
-    width: 40,
+    height: 60,
+    width: 60,
     justifyContent: 'center',
     alignItems: 'center',
   },
   startbutton: {
-    height: 80,
-    width: 80,
+    height: 100,
+    width: 100,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -34,7 +35,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontSize: 36,
+    fontSize: 46,
     fontWeight: 'bold',
     textAlign: 'center',
     backgroundColor: '#000000a0',
