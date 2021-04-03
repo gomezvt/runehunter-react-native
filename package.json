@@ -15,7 +15,8 @@
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-admob": "^2.0.0-beta.6",
-    "react-native-game-engine": "^1.2.0"
+    "react-native-game-engine": "^1.2.0",
+    "rn-sprite-sheet": "^1.1.12"
   },
   "devDependencies": {
     "@babel/core": "7.12.17",
