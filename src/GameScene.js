@@ -10,20 +10,38 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
-import { Finger } from "./renderers";
+import { Finger, WarriorIdle } from "./heroes/Warrior";
 import { MoveFinger } from "./systems";
 import { GameEngine } from 'react-native-game-engine';
+import SpriteSheet from 'rn-sprite-sheet';
+
+const { height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 export default class GameScene extends PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      loop: true,
+      resetAfterFinish: false,
+      fps: '16',
+      hero: 'warrior',
+    };
   }
 
   render() {
-    const startButton = require('../img/start.png');
     return (
       <>
-        <GameEngine
+          <GameEngine
+          style={styles.gameContainer}
+            systems={[MoveFinger]}
+            entities={{
+              1: {
+                position: [-width / 3, height / 2], renderer: <WarriorIdle />
+              },
+          }}>
+          </GameEngine> 
+        {/* <GameEngine
           style={styles.game_container}
           systems={[MoveFinger]}
           entities={{
@@ -33,7 +51,7 @@ export default class GameScene extends PureComponent {
             4: { position: [220, 200], renderer: <Finger /> },
             5: { position: [280, 200], renderer: <Finger /> }
           }}>
-        </GameEngine>
+        </GameEngine> */}
       </>
     );
   }

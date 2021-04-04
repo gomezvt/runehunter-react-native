@@ -23,7 +23,13 @@ export default class WorldSelectScene extends PureComponent {
     const startButton = require('../img/start.png');
     return (
       <>
-      <View style={{width: "100%", flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        <View style={{ width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.8)', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
+          <View style={{ width: 100, marginTop: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Caves</Text></View>
+          <View style={{ width: 100, marginTop: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Firelands</Text></View>
+          <View style={{ width: 100, marginTop: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Catacombs</Text></View>
+          <View style={{ width: 100, marginTop: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Icelands</Text></View>
+        </View>
+        <View style={{ height: 130, width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.8)', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
         <TouchableOpacity
           style={styles.worldButton}
           onPress={() => this.props.setSceneState("level")}>
