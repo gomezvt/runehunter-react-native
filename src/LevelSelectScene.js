@@ -10,7 +10,7 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
-export default class LevelScene extends PureComponent {
+export default class LevelSelectScene extends PureComponent {
   constructor(props) {
     super(props);
   }

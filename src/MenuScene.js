@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { styles } from '../styles';
-import LevelScene from './LevelScene';
 
 import {
   Platform,
