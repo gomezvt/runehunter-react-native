@@ -1,18 +1,9 @@
 import React, { PureComponent } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import SpriteSheet from 'rn-sprite-sheet';
 
-const RADIUS = 20;
-
-export class Finger extends PureComponent {
-  render() {
-    const x = this.props.position[0] - RADIUS / 2;
-    const y = this.props.position[1] - RADIUS / 2;
-    return (
-      <View style={[styles.finger, { left: x, top: y }]} />
-    );
-  }
-}
+const { height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 export class WarriorIdle extends PureComponent {
   constructor(props) {
@@ -22,6 +13,8 @@ export class WarriorIdle extends PureComponent {
       resetAfterFinish: false,
       fps: '16',
       hero: 'warrior',
+      x: -width / 3,
+      y: height / 3,
     };
   }
 
@@ -48,10 +41,9 @@ export class WarriorIdle extends PureComponent {
   };
 
   render() {
-    const x = this.props.position[0] - RADIUS / 2;
-    const y = this.props.position[1] - RADIUS / 2;
+    const { x, y } = this.state;
     return (
-      <View style={{ left: x, top: y }}>
+      // <View style={{ left: x, top: y }}>
         <SpriteSheet
           ref={ref => (this.warrior = ref)}
           source={require('../../sprites/warrior/Idle.png')}
@@ -62,19 +54,61 @@ export class WarriorIdle extends PureComponent {
             idle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
           }}
         />
-      </View>
+      // </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  finger: {
-    borderColor: "#CCC",
-    borderWidth: 4,
-    borderRadius: RADIUS * 2,
-    width: RADIUS * 2,
-    height: RADIUS * 2,
-    backgroundColor: "pink",
-    position: "absolute"
+export class WarriorAttack extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loop: false,
+      resetAfterFinish: true,
+      fps: '16',
+      hero: 'warrior',
+      x: -width / 3,
+      y: height / 3,
+    };
   }
-});
+
+  componentDidMount() {
+    this.play('attack');
+  }
+
+  play = type => {
+    const { fps, loop, resetAfterFinish } = this.state;
+
+    if (this.warrior) {
+      this.warrior.play({
+        type,
+        fps: Number(fps),
+        loop: loop,
+        resetAfterFinish: resetAfterFinish,
+        onFinish: () => console.log('hi')
+      });
+    }
+  };
+
+  stop = () => {
+    this.warrior.stop(() => console.log('stopped'));
+  };
+
+  render() {
+    const { x, y } = this.state;
+    return (
+      // <View style={{ left: x, top: y }}>
+        <SpriteSheet
+          ref={ref => (this.warrior = ref)}
+          source={require('../../sprites/warrior/Attack1.png')}
+          columns={4}
+          rows={1}
+          width={175}
+          animations={{
+            attack: [0, 1, 2, 3],
+          }}
+        />
+      // </View>
+    );
+  }
+}

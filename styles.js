@@ -20,6 +20,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  inGameButton: {
+    height: 40,
+    width: 40,
+  },
   startbutton: {
     height: 100,
     width: 100,
