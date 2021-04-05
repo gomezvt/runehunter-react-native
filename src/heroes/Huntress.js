@@ -49,7 +49,7 @@ export class HuntressIdle extends PureComponent {
         source={require('../../sprites/huntress/Idle.png')}
         columns={10}
         rows={1}
-        width={125}
+        width={175}
         animations={{
           idle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         }}

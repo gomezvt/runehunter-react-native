@@ -49,7 +49,7 @@ export class WarriorIdle extends PureComponent {
           source={require('../../sprites/warrior/Idle.png')}
           columns={10}
           rows={1}
-          width={175}
+          width={225}
           animations={{
             idle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
           }}
@@ -103,7 +103,7 @@ export class WarriorAttack extends PureComponent {
           source={require('../../sprites/warrior/Attack1.png')}
           columns={4}
           rows={1}
-          width={175}
+          width={225}
           animations={{
             attack: [0, 1, 2, 3],
           }}

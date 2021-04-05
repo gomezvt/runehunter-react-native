@@ -49,33 +49,33 @@ export default class HeroSelectScene extends PureComponent {
     const wizardBg = hero == 'wizard' ? 'magenta' : null;
     return (
       <>
-        <View style={{ width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.8)', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
-          <View style={{ width: 100, marginTop: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Warrior</Text></View>
-          <View style={{ width: 100, marginTop: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Monk</Text></View>
-          <View style={{ width: 100, marginTop: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Wizard</Text></View>
-          <View style={{ width: 100, marginTop: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Huntress</Text></View>
-        </View>
-        <View style={{ height: 130, width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.8)', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
-          <View style={{ width: 100, height: 100, backgroundColor: warriorBg, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ height: 180, width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.8)', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
+          <View style={{ width: 150, height: 150, backgroundColor: warriorBg, alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity onPress={() => this.setHero('warrior')}>
               <WarriorIdle />
             </TouchableOpacity>
           </View>
-          <View style={{ width: 100, height: 100, backgroundColor: monkBg, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ width: 150, height: 150, backgroundColor: monkBg, alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity onPress={() => this.setHero('monk')}>
               <MonkIdle />
             </TouchableOpacity>
           </View>
-          <View style={{ width: 100, height: 100, backgroundColor: wizardBg, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ width: 150, height: 150, backgroundColor: wizardBg, alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity onPress={() => this.setHero('wizard')}>
               <WizardIdle />
             </TouchableOpacity>
           </View>
-          <View style={{ width: 100, height: 100, backgroundColor: huntressBg, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ width: 150, height: 150, backgroundColor: huntressBg, alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity onPress={() => this.setHero('huntress')}>
               <HuntressIdle />
             </TouchableOpacity>
           </View>
+        </View>
+        <View style={{ width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.8)', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
+          <View style={{ width: 150, marginBottom: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Warrior</Text></View>
+          <View style={{ width: 150, marginBottom: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Monk</Text></View>
+          <View style={{ width: 150, marginBottom: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Wizard</Text></View>
+          <View style={{ width: 150, marginBottom: 15, justifyContent: 'space-evenly', alignItems: 'center' }}><Text style={{ color: '#fff' }}>Huntress</Text></View>
         </View>
       </>
     );

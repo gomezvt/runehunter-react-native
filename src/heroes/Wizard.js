@@ -49,6 +49,7 @@ export class WizardIdle extends PureComponent {
         source={require('../../sprites/wizard/Idle.png')}
         columns={8}
         rows={1}
+        width={350}
         animations={{
           idle: [0, 1, 2, 3, 4, 5, 6, 7],
         }}

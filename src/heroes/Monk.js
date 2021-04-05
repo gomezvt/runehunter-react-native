@@ -49,6 +49,7 @@ export class MonkIdle extends PureComponent {
         source={require('../../sprites/monk/Idle.png')}
         columns={4}
         rows={1}
+        width={300}
         animations={{
           idle: [0, 1, 2, 3],
         }}
