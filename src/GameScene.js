@@ -10,31 +10,27 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
-import { WarriorIdle, WarriorAttack } from "./heroes/Warrior";
+import { Warrior } from "./heroes/Warrior";
 import { GameEngine, GameLoop } from 'react-native-game-engine';
 
 const { height } = Dimensions.get('window')
 const { width } = Dimensions.get('window')
 const pauseButton = require('../img/pause.png');
 const menuButton = require('../img/menu.png');
-const gamepad = require('../img/gamepad.png');
+// const gamepad = require('../img/gamepad.png');
 
 export default class GameScene extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       hero: 'warrior',
-      attacked: false,
+      type: 'idle',
       x: -width / 3,
       y: height / 2,
     };
   }
 
   updateHandler = ({ touches, screen, layout, time }) => {
-    let press = touches.find(x => x.type === "press");
-    if (press) {
-      const p = press;
-    }
 
     // let move = touches.find(x => x.type === "move");
     // if (move) {
@@ -44,16 +40,18 @@ export default class GameScene extends PureComponent {
     //   });
     // }
 
-    // const { attacked } = this.state;
-    // let press = touches.find(x => x.type === "press");
-    // if (press) {
-    //   this.setState({ attacked: true });
-    // } else if (attacked) {
-    //   setTimeout(() => { this.setState({ attacked: false }) }, 300);
-    // }
+    let press = touches.find(x => x.type === "press");
+    if (press) {
+      this.setState({
+        type: 'attack'
+      }, () => {
+        setTimeout(() => { this.setState({ type: 'idle' }) }, 300)
+      });
+    }
   };
 
   render() {
+    const { type } = this.state;
     return (
       <>
         <View style={{ width: "100%", flexDirection: 'row', justifyContent: 'space-evenly' }}>
@@ -69,7 +67,7 @@ export default class GameScene extends PureComponent {
           </TouchableOpacity>
         </View>
         <GameLoop style={styles.gameContainer} onUpdate={this.updateHandler}>
-          {this.state.attacked ? <WarriorAttack /> : <WarriorIdle />}
+          <Warrior type={type} loop={true} resetAfterFinish={false} />
           {/* <TouchableOpacity
             onPress={() => { }}
             style={{ left: 25, top: -50 }}
