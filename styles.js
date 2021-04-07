@@ -5,13 +5,12 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)'
   },
   gameContainer: {
     flex: 1,
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)'
+    backgroundColor: 'grey'
   },
   menubutton: {
     height: 60,

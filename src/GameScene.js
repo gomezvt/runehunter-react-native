@@ -17,7 +17,11 @@ const { height } = Dimensions.get('window')
 const { width } = Dimensions.get('window')
 const pauseButton = require('../img/pause.png');
 const menuButton = require('../img/menu.png');
-// const gamepad = require('../img/gamepad.png');
+const leftButton = require('../img/controls/LEFT_BUTTON.png');
+const rightButton = require('../img/controls/RIGHT_BUTTON.png');
+const attackButton = require('../img/controls/A_BUTTON.png');
+const jumpButton = require('../img/controls/B_BUTTON.png');
+const specialButton = require('../img/controls/X_BUTTON.png');
 
 export default class GameScene extends PureComponent {
   constructor(props) {
@@ -40,14 +44,14 @@ export default class GameScene extends PureComponent {
     //   });
     // }
 
-    let press = touches.find(x => x.type === "press");
-    if (press) {
-      this.setState({
-        type: 'attack'
-      }, () => {
-        setTimeout(() => { this.setState({ type: 'idle' }) }, 300)
-      });
-    }
+    // let press = touches.find(x => x.type === "press");
+    // if (press) {
+    //   this.setState({
+    //     type: 'attack'
+    //   }, () => {
+    //     setTimeout(() => { this.setState({ type: 'idle' }) }, 300)
+    //   });
+    // }
   };
 
   render() {
@@ -68,13 +72,49 @@ export default class GameScene extends PureComponent {
         </View>
         <GameLoop style={styles.gameContainer} onUpdate={this.updateHandler}>
           <Warrior type={type} loop={true} resetAfterFinish={false} />
+        </GameLoop>
+        <View style={{ width: '100%', flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              onPress={() => { }}
+              style={{ height: 90, width: 90 }}
+            >
+              <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={leftButton} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => { }}
+              style={{ height: 90, width: 90 }}
+            >
+              <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={rightButton} />
+            </TouchableOpacity>
+          </View>
+          <View style={{ flexDirection: 'row', position: 'absolute', right: 0 }}>
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({
+                  type: 'attack'
+                }, () => {
+                  setTimeout(() => { this.setState({ type: 'idle' }) }, 300)
+                });
+              }}
+              style={{ height: 90, width: 90 }}
+            >
+              <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={attackButton} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => { }}
+              style={{ height: 90, width: 90 }}
+            >
+              <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={jumpButton} />
+            </TouchableOpacity>
+          </View>
           {/* <TouchableOpacity
             onPress={() => { }}
-            style={{ left: 25, top: -50 }}
+            style={{ height: 90, width: 90 }}
           >
-            <Image source={gamepad} />
+            <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={specialButton} />
           </TouchableOpacity> */}
-        </GameLoop>
+        </View>
       </>
     );
   }
