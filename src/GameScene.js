@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Warrior } from "./heroes/Warrior";
 import { GameEngine, GameLoop } from 'react-native-game-engine';
+import { EventRegister } from 'react-native-event-listeners'
 
 const { height } = Dimensions.get('window')
 const { width } = Dimensions.get('window')
@@ -54,6 +55,14 @@ export default class GameScene extends PureComponent {
     // }
   };
 
+  // handleAttack = () => {
+  //   this.setState({
+  //     type: 'attack'
+  //   }, () => {
+  //     setTimeout(() => { this.setState({ type: 'idle' }) }, 300)
+  //   });
+  // }
+
   render() {
     const { type } = this.state;
     return (
@@ -91,11 +100,8 @@ export default class GameScene extends PureComponent {
           <View style={{ flexDirection: 'row', position: 'absolute', right: 0 }}>
             <TouchableOpacity
               onPress={() => {
-                this.setState({
-                  type: 'attack'
-                }, () => {
-                  setTimeout(() => { this.setState({ type: 'idle' }) }, 300)
-                });
+                EventRegister.emit('type', 'attack')
+                setTimeout(() => { EventRegister.emit('type', 'idle') }, 300)
               }}
               style={{ height: 90, width: 90 }}
             >
@@ -107,13 +113,13 @@ export default class GameScene extends PureComponent {
             >
               <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={jumpButton} />
             </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => { }}
+              style={{ height: 90, width: 90 }}
+            >
+              <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={specialButton} />
+            </TouchableOpacity>
           </View>
-          {/* <TouchableOpacity
-            onPress={() => { }}
-            style={{ height: 90, width: 90 }}
-          >
-            <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={specialButton} />
-          </TouchableOpacity> */}
         </View>
       </>
     );

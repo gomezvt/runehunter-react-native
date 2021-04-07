@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
 import SpriteSheet from 'rn-sprite-sheet';
+import { EventRegister } from 'react-native-event-listeners'
 
 const { height } = Dimensions.get('window')
 const { width } = Dimensions.get('window')
@@ -14,11 +15,22 @@ export class Warrior extends PureComponent {
       fps: 16,
       x: -width / 3,
       y: height / 3,
+      type: props.type,
     };
   }
 
   componentDidMount() {
-    this.play(this.props.type);
+    this.play(this.state.type);
+
+    this.listener = EventRegister.addEventListener('type', (data) => {
+      this.setState({
+        'type': data,
+      })
+    })
+  }
+
+  componentWillUnmount() {
+    EventRegister.removeEventListener(this.listener)
   }
 
   play = type => {
@@ -37,7 +49,7 @@ export class Warrior extends PureComponent {
   };
 
   getSpriteData = () => {
-    switch (this.props.type) {
+    switch (this.state.type) {
       case 'idle':
         return { source: require('../../sprites/warrior/Idle.png'), cols: 10, width: 250 }
       case 'attack':
