@@ -20,7 +20,7 @@ const { height } = Dimensions.get('window')
 const { width } = Dimensions.get('window')
 
 import SpriteSheet from 'rn-sprite-sheet';
-import { Warrior } from './heroes/Warrior';
+import { Warrior, WarriorIdle } from './heroes/Warrior';
 import { MonkIdle } from './heroes/Monk';
 import { WizardIdle } from './heroes/Wizard';
 import { HuntressIdle } from './heroes/Huntress';
@@ -52,7 +52,8 @@ export default class HeroSelectScene extends PureComponent {
         <View style={{ height: 180, width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.8)', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
           <View style={{ width: 150, height: 150, backgroundColor: warriorBg, alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity onPress={() => this.setHero('warrior')}>
-              <Warrior type={'idle'} loop={true} resetAfterFinish={true} />
+              {/* <Warrior type={'idle'} loop={true} resetAfterFinish={true} /> */}
+              <WarriorIdle />
             </TouchableOpacity>
           </View>
           <View style={{ width: 150, height: 150, backgroundColor: monkBg, alignItems: 'center', justifyContent: 'center' }}>

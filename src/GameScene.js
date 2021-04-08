@@ -10,7 +10,7 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
-import { Warrior } from "./heroes/Warrior";
+import { Warrior, WarriorAttack, WarriorIdle } from "./heroes/Warrior";
 import { GameEngine, GameLoop } from 'react-native-game-engine';
 import { EventRegister } from 'react-native-event-listeners'
 
@@ -80,7 +80,8 @@ export default class GameScene extends PureComponent {
           </TouchableOpacity>
         </View>
         <GameLoop style={styles.gameContainer} onUpdate={this.updateHandler}>
-          <Warrior type={type} loop={true} resetAfterFinish={false} />
+          {type == 'attack' ? <WarriorAttack /> : <WarriorIdle />}
+          {/* <Warrior /> */}
         </GameLoop>
         <View style={{ width: '100%', flexDirection: 'row' }}>
           <View style={{ flexDirection: 'row' }}>
@@ -100,8 +101,8 @@ export default class GameScene extends PureComponent {
           <View style={{ flexDirection: 'row', position: 'absolute', right: 0 }}>
             <TouchableOpacity
               onPress={() => {
-                EventRegister.emit('type', 'attack')
-                setTimeout(() => { EventRegister.emit('type', 'idle') }, 300)
+                this.setState({ 'type': 'attack' });
+                setTimeout(() => { this.setState({ 'type': 'idle'}) }, 300);
               }}
               style={{ height: 90, width: 90 }}
             >
