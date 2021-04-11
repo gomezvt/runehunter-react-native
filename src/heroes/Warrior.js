@@ -154,7 +154,7 @@ export class WarriorIdle extends PureComponent {
     const { x, y } = this.state;
     const idleright = require('../../sprites/warrior/IdleRight.png');
     const idleleft = require('../../sprites/warrior/IdleLeft.png');
-    const source = this.props.direction == "idleright" ? idleright : idleleft;
+    const source = this.props.direction == "idleleft" ? idleleft : idleright;
     return (
       // <View style={{ left: x, top: y }}>
       <SpriteSheet
@@ -237,8 +237,8 @@ export class WarriorRun extends PureComponent {
       resetAfterFinish: true,
       fps: '16',
       hero: 'warrior',
-      x: -width / 3,
-      y: height / 3,
+      x: props.position.x,
+      y: props.position.y,
     };
   }
 

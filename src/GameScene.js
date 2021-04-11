@@ -29,7 +29,7 @@ export default class GameScene extends PureComponent {
     super(props);
     this.state = {
       hero: 'warrior',
-      type: 'idle',
+      type: 'idleright',
       x: -width / 3,
       y: height / 2,
     };
@@ -64,7 +64,7 @@ export default class GameScene extends PureComponent {
   // }
 
   render() {
-    const { type } = this.state;
+    const { type, x, y } = this.state;
     return (
       <>
         <View style={{ width: "100%", flexDirection: 'row', justifyContent: 'space-evenly' }}>
@@ -81,7 +81,7 @@ export default class GameScene extends PureComponent {
         </View>
         <GameLoop style={styles.gameContainer} onUpdate={this.updateHandler}>
           {type == 'attackright' || type == 'attackleft' ? <WarriorAttack direction={type} /> :
-            type == 'runleft' || type == 'runright' ? <WarriorRun direction={type} /> :
+            type == 'runleft' || type == 'runright' ? <WarriorRun position={{ x, y }} direction={type} /> :
               <WarriorIdle direction={type} />}
           {/* <Warrior /> */}
         </GameLoop>
