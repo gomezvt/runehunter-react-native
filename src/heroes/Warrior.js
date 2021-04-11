@@ -152,11 +152,14 @@ export class WarriorIdle extends PureComponent {
 
   render() {
     const { x, y } = this.state;
+    const idleright = require('../../sprites/warrior/IdleRight.png');
+    const idleleft = require('../../sprites/warrior/IdleLeft.png');
+    const source = this.props.direction == "idleright" ? idleright : idleleft;
     return (
       // <View style={{ left: x, top: y }}>
       <SpriteSheet
         ref={ref => (this.warrior = ref)}
-        source={require('../../sprites/warrior/Idle.png')}
+        source={source}
         columns={10}
         rows={1}
         width={225}
@@ -206,16 +209,76 @@ export class WarriorAttack extends PureComponent {
 
   render() {
     const { x, y } = this.state;
+    const attackright = require('../../sprites/warrior/AttackRight.png');
+    const attackleft = require('../../sprites/warrior/AttackLeft.png');
+    const source = this.props.direction == "attackright" ? attackright : attackleft;
     return (
       // <View style={{ left: x, top: y }}>
       <SpriteSheet
         ref={ref => (this.warrior = ref)}
-        source={require('../../sprites/warrior/Attack1.png')}
+        source={source}
         columns={4}
         rows={1}
         width={225}
         animations={{
           attack: [0, 1, 2, 3],
+        }}
+      />
+      // </View>
+    );
+  }
+}
+
+export class WarriorRun extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loop: true,
+      resetAfterFinish: true,
+      fps: '16',
+      hero: 'warrior',
+      x: -width / 3,
+      y: height / 3,
+    };
+  }
+
+  componentDidMount() {
+    this.play('run');
+  }
+
+  play = type => {
+    const { fps, loop, resetAfterFinish } = this.state;
+
+    if (this.warrior) {
+      this.warrior.play({
+        type,
+        fps: Number(fps),
+        loop: loop,
+        resetAfterFinish: resetAfterFinish,
+        onFinish: () => console.log('hi')
+      });
+    }
+  };
+
+  stop = () => {
+    this.warrior.stop(() => console.log('stopped'));
+  };
+
+  render() {
+    const { x, y } = this.state;
+    const right = require('../../sprites/warrior/RunRight.png');
+    const left = require('../../sprites/warrior/RunLeft.png');
+    const dir = this.props.direction == 'runright' ? right : left;
+    return (
+      // <View style={{ left: x, top: y }}>
+      <SpriteSheet
+        ref={ref => (this.warrior = ref)}
+        source={dir}
+        columns={6}
+        rows={1}
+        width={225}
+        animations={{
+          run: [0, 1, 2, 3, 4, 5],
         }}
       />
       // </View>

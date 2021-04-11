@@ -10,7 +10,7 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
-import { Warrior, WarriorAttack, WarriorIdle } from "./heroes/Warrior";
+import { Warrior, WarriorAttack, WarriorIdle, WarriorRun } from "./heroes/Warrior";
 import { GameEngine, GameLoop } from 'react-native-game-engine';
 import { EventRegister } from 'react-native-event-listeners'
 
@@ -80,19 +80,31 @@ export default class GameScene extends PureComponent {
           </TouchableOpacity>
         </View>
         <GameLoop style={styles.gameContainer} onUpdate={this.updateHandler}>
-          {type == 'attack' ? <WarriorAttack /> : <WarriorIdle />}
+          {type == 'attackright' || type == 'attackleft' ? <WarriorAttack direction={type} /> :
+            type == 'runleft' || type == 'runright' ? <WarriorRun direction={type} /> :
+              <WarriorIdle direction={type} />}
           {/* <Warrior /> */}
         </GameLoop>
         <View style={{ width: '100%', flexDirection: 'row' }}>
           <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity
-              onPress={() => { }}
+              onPressOut={() => {
+                this.setState({ 'type': 'idleleft' });
+              }}
+              onPressIn={() => {
+                this.setState({ 'type': 'runleft' });
+              }}
               style={{ height: 90, width: 90 }}
             >
               <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={leftButton} />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => { }}
+              onPressOut={() => {
+                this.setState({ 'type': 'idleright' });
+              }}
+              onPressIn={() => {
+                this.setState({ 'type': 'runright' });
+              }}
               style={{ height: 90, width: 90 }}
             >
               <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={rightButton} />
@@ -101,8 +113,13 @@ export default class GameScene extends PureComponent {
           <View style={{ flexDirection: 'row', position: 'absolute', right: 0 }}>
             <TouchableOpacity
               onPress={() => {
-                this.setState({ 'type': 'attack' });
-                setTimeout(() => { this.setState({ 'type': 'idle'}) }, 300);
+                if (this.state.type == 'idleleft') {
+                  this.setState({ 'type': 'attackleft' });
+                  setTimeout(() => { this.setState({ 'type': 'idleleft' }) }, 300);
+                } else {
+                  this.setState({ 'type': 'attackright' });
+                  setTimeout(() => { this.setState({ 'type': 'idleright' }) }, 300);
+                }
               }}
               style={{ height: 90, width: 90 }}
             >
