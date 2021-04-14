@@ -112,8 +112,7 @@ import React, { PureComponent } from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
 import SpriteSheet from 'rn-sprite-sheet';
 
-const { height } = Dimensions.get('window')
-const { width } = Dimensions.get('window')
+
 
 export class WarriorIdle extends PureComponent {
   constructor(props) {
@@ -123,8 +122,6 @@ export class WarriorIdle extends PureComponent {
       resetAfterFinish: false,
       fps: '16',
       hero: 'warrior',
-      x: -width / 3,
-      y: height / 3,
     };
   }
 
@@ -180,8 +177,6 @@ export class WarriorAttack extends PureComponent {
       resetAfterFinish: true,
       fps: '16',
       hero: 'warrior',
-      x: -width / 3,
-      y: height / 3,
     };
   }
 
@@ -237,8 +232,6 @@ export class WarriorRun extends PureComponent {
       resetAfterFinish: true,
       fps: '16',
       hero: 'warrior',
-      x: props.position.x,
-      y: props.position.y,
     };
   }
 

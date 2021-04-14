@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
+  Animated,
+  Easing
 } from 'react-native';
 import { Warrior, WarriorAttack, WarriorIdle, WarriorRun } from "./heroes/Warrior";
 import { GameEngine, GameLoop } from 'react-native-game-engine';
@@ -32,36 +34,30 @@ export default class GameScene extends PureComponent {
       type: 'idleright',
       x: -width / 3,
       y: height / 2,
+      offsetX: new Animated.Value(0),
     };
   }
 
-  updateHandler = ({ touches, screen, layout, time }) => {
+  moveRight = () => {
+    if (this.state.type !== 'runright') {
+      this.setState({ type: 'runright' });
+    } else {
+      const updated = this.state.offsetX.__getValue() + 30;
+      Animated.spring(
+        this.state.offsetX,
+        {
+          toValue: updated,
+          useNativeDriver: false,
+        },
+      ).start();
+    }
+    this.timer = setTimeout(this.moveRight, 200);
+  }
 
-    // let move = touches.find(x => x.type === "move");
-    // if (move) {
-    //   this.setState({
-    //     x: this.state.x + move.delta.pageX,
-    //     y: this.state.y + move.delta.pageY,
-    //   });
-    // }
-
-    // let press = touches.find(x => x.type === "press");
-    // if (press) {
-    //   this.setState({
-    //     type: 'attack'
-    //   }, () => {
-    //     setTimeout(() => { this.setState({ type: 'idle' }) }, 300)
-    //   });
-    // }
-  };
-
-  // handleAttack = () => {
-  //   this.setState({
-  //     type: 'attack'
-  //   }, () => {
-  //     setTimeout(() => { this.setState({ type: 'idle' }) }, 300)
-  //   });
-  // }
+  stopMoving = () => {
+    this.setState({ type: 'idleright' });
+    clearTimeout(this.timer);
+  }
 
   render() {
     const { type, x, y } = this.state;
@@ -79,32 +75,27 @@ export default class GameScene extends PureComponent {
             <Image source={pauseButton} style={styles.inGameButton} />
           </TouchableOpacity>
         </View>
-        <GameLoop style={styles.gameContainer} onUpdate={this.updateHandler}>
+        <Animated.View style={{ transform: [{ translateX: this.state.offsetX }] }}>
           {type == 'attackright' || type == 'attackleft' ? <WarriorAttack direction={type} /> :
-            type == 'runleft' || type == 'runright' ? <WarriorRun position={{ x, y }} direction={type} /> :
+            type == 'runleft' || type == 'runright' ? <WarriorRun direction={type} /> :
               <WarriorIdle direction={type} />}
-          {/* <Warrior /> */}
-        </GameLoop>
+        </Animated.View>
         <View style={{ width: '100%', flexDirection: 'row' }}>
           <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity
               onPressOut={() => {
-                this.setState({ 'type': 'idleleft' });
+                this.setState({ type: 'idleleft' });
               }}
               onPressIn={() => {
-                this.setState({ 'type': 'runleft' });
+                this.setState({ type: 'runleft' });
               }}
               style={{ height: 90, width: 90 }}
             >
               <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={leftButton} />
             </TouchableOpacity>
             <TouchableOpacity
-              onPressOut={() => {
-                this.setState({ 'type': 'idleright' });
-              }}
-              onPressIn={() => {
-                this.setState({ 'type': 'runright' });
-              }}
+              onPressOut={() => this.stopMoving()}
+              onPressIn={() => this.moveRight()}
               style={{ height: 90, width: 90 }}
             >
               <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={rightButton} />
@@ -114,11 +105,11 @@ export default class GameScene extends PureComponent {
             <TouchableOpacity
               onPress={() => {
                 if (this.state.type == 'idleleft') {
-                  this.setState({ 'type': 'attackleft' });
-                  setTimeout(() => { this.setState({ 'type': 'idleleft' }) }, 300);
+                  this.setState({ type: 'attackleft' });
+                  setTimeout(() => { this.setState({ type: 'idleleft' }) }, 300);
                 } else {
                   this.setState({ 'type': 'attackright' });
-                  setTimeout(() => { this.setState({ 'type': 'idleright' }) }, 300);
+                  setTimeout(() => { this.setState({ type: 'idleright' }) }, 300);
                 }
               }}
               style={{ height: 90, width: 90 }}
