@@ -32,35 +32,39 @@ export default class GameScene extends PureComponent {
     this.state = {
       hero: 'warrior',
       type: 'idleright',
-      x: -width / 3,
-      y: height / 2,
-      offsetX: new Animated.Value(0),
     };
+    this.offsetX = new Animated.Value(0);
   }
 
-  moveRight = () => {
-    if (this.state.type !== 'runright') {
-      this.setState({ type: 'runright' });
-    } else {
-      const updated = this.state.offsetX.__getValue() + 30;
-      Animated.spring(
-        this.state.offsetX,
-        {
-          toValue: updated,
-          useNativeDriver: false,
-        },
-      ).start();
+  run = (type) => {
+    if (type !== 'runleft' && type !== 'runright') {
+      return;
     }
-    this.timer = setTimeout(this.moveRight, 200);
+
+    console.log('hi');
+    if (type !== this.state.type) {
+      this.setState({ type });
+    }
+
+    const offsetX = this.offsetX.__getValue();
+    const runValue = type == 'runleft' ? offsetX - 5 : offsetX + 5;
+    Animated.spring(
+      this.offsetX,
+      {
+        toValue: runValue,
+        useNativeDriver: false,
+      },
+    ).start();
+    this.timer = setTimeout(this.run, 200);
   }
 
-  stopMoving = () => {
-    this.setState({ type: 'idleright' });
+  stopMoving = (type) => {
+    this.setState({ type });
     clearTimeout(this.timer);
   }
 
   render() {
-    const { type, x, y } = this.state;
+    const { type } = this.state;
     return (
       <>
         <View style={{ width: "100%", flexDirection: 'row', justifyContent: 'space-evenly' }}>
@@ -75,7 +79,7 @@ export default class GameScene extends PureComponent {
             <Image source={pauseButton} style={styles.inGameButton} />
           </TouchableOpacity>
         </View>
-        <Animated.View style={{ transform: [{ translateX: this.state.offsetX }] }}>
+        <Animated.View style={{ transform: [{ translateX: this.offsetX }] }}>
           {type == 'attackright' || type == 'attackleft' ? <WarriorAttack direction={type} /> :
             type == 'runleft' || type == 'runright' ? <WarriorRun direction={type} /> :
               <WarriorIdle direction={type} />}
@@ -83,19 +87,15 @@ export default class GameScene extends PureComponent {
         <View style={{ width: '100%', flexDirection: 'row' }}>
           <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity
-              onPressOut={() => {
-                this.setState({ type: 'idleleft' });
-              }}
-              onPressIn={() => {
-                this.setState({ type: 'runleft' });
-              }}
+              onPressOut={() => this.stopMoving('idleleft')}
+              onPressIn={() => this.run('runleft')}
               style={{ height: 90, width: 90 }}
             >
               <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={leftButton} />
             </TouchableOpacity>
             <TouchableOpacity
-              onPressOut={() => this.stopMoving()}
-              onPressIn={() => this.moveRight()}
+              onPressOut={() => this.stopMoving('idleright')}
+              onPressIn={() => this.run('runright')}
               style={{ height: 90, width: 90 }}
             >
               <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={rightButton} />
