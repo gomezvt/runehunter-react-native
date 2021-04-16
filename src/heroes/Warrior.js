@@ -148,12 +148,10 @@ export class WarriorIdle extends PureComponent {
   };
 
   render() {
-    const { x, y } = this.state;
     const idleright = require('../../sprites/warrior/IdleRight.png');
     const idleleft = require('../../sprites/warrior/IdleLeft.png');
     const source = this.props.direction == "idleleft" ? idleleft : idleright;
     return (
-      // <View style={{ left: x, top: y }}>
       <SpriteSheet
         ref={ref => (this.warrior = ref)}
         source={source}
@@ -164,7 +162,6 @@ export class WarriorIdle extends PureComponent {
           idle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         }}
       />
-      // </View>
     );
   }
 }
