@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View } from "react-native";
+import { array, object, string } from 'prop-types';
 
 export default class Floor extends Component {
   render() {
@@ -16,8 +17,14 @@ export default class Floor extends Component {
           top: y,
           width: width,
           height: height,
-          backgroundColor: this.props.color
+          backgroundColor: this.props.color || "pink"
         }} />
     );
   }
+}
+
+Floor.propTypes = {
+  size: array,
+  body: object,
+  color: string
 }
