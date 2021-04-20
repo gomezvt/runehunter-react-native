@@ -38,8 +38,6 @@ export default class WarriorIdle extends Component {
   };
 
   getSpriteData = () => {
-    // const { direction } = this.props;
-    // const d = direction || this.state.direction;
     const dir = this.props.renderer.props.direction || this.state.direction;
     if (dir == 'right') {
       return { source: require('../../sprites/warrior/IdleRight.png'), cols: 10, width: 225 }

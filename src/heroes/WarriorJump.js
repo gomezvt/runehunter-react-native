@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { array, object, string } from 'prop-types';
 import SpriteSheet from 'rn-sprite-sheet';
 
-export default class WarriorRun extends Component {
+export default class WarriorJump extends Component {
 
   constructor(props) {
     super(props);
@@ -16,7 +16,7 @@ export default class WarriorRun extends Component {
   }
 
   componentDidMount() {
-    this.play('run');
+    this.play('jump');
   }
 
   play = type => {
@@ -39,9 +39,9 @@ export default class WarriorRun extends Component {
   getSpriteData = () => {
     const dir = this.props.renderer.props.direction || this.state.direction;
     if (dir == 'right') {
-      return { source: require('../../sprites/warrior/RunRight.png'), cols: 6, width: 225 }
+      return { source: require('../../sprites/warrior/JumpRight.png'), cols: 2, width: 225 }
     }
-    return { source: require('../../sprites/warrior/RunLeft.png'), cols: 6, width: 225 }
+    return { source: require('../../sprites/warrior/JumpLeft.png'), cols: 2, width: 225 }
   }
 
   renderHero = () => {
@@ -66,7 +66,7 @@ export default class WarriorRun extends Component {
         rows={1}
         width={data.width}
         animations={{
-          run: [0, 1, 2, 3, 4, 5],
+          jump: [0, 1]
         }}
       />
     </View>
@@ -79,7 +79,7 @@ export default class WarriorRun extends Component {
   }
 }
 
-WarriorRun.propTypes = {
+WarriorJump.propTypes = {
   size: array,
   body: object,
   color: string

@@ -37,8 +37,6 @@ export default class WarriorAttack extends Component {
   };
 
   getSpriteData = () => {
-    // const { direction } = this.props;
-    // const d = direction || this.state.direction;
     const dir = this.props.renderer.props.direction || this.state.direction;
     if (dir == 'right') {
       return { source: require('../../sprites/warrior/AttackRight.png'), cols: 4, width: 225 }

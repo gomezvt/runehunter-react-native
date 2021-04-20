@@ -19,6 +19,8 @@ import Floor from './Floor';
 import WarriorIdle from "./heroes/WarriorIdle";
 import WarriorAttack from './heroes/WarriorAttack';
 import WarriorRun from './heroes/WarriorRun';
+import WarriorJump from './heroes/WarriorJump';
+import WarriorFall from './heroes/WarriorFall';
 
 import { GameEngine, GameLoop } from 'react-native-game-engine';
 import { EventRegister } from 'react-native-event-listeners'
@@ -93,6 +95,10 @@ export default class GameScene extends Component {
         <TouchableOpacity
           onPress={() => { }}
           style={{ height: 90, width: 90 }}
+          onPress={() => {
+            this.engine.swap(this.getEntities('jump', this.direction))
+            setTimeout(() => { this.engine.swap(this.getEntities('fall', this.direction)) }, 600)
+          }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={jumpButton} />
         </TouchableOpacity>
@@ -126,7 +132,10 @@ export default class GameScene extends Component {
   getEntities = (type, direction) => {
     this.direction = direction;
     const component = type == 'attack' ? <WarriorAttack direction={direction} /> :
-      type == 'run' ? <WarriorRun direction={direction} /> : <WarriorIdle direction={direction} />;
+      type == 'run' ? <WarriorRun direction={direction} /> :
+        type == 'jump' ? <WarriorJump direction={direction} /> :
+          type == 'fall' ? <WarriorFall direction={direction} /> :
+            <WarriorIdle direction={direction} />;
 
     return {
       physics: { engine: engine, world: world },
