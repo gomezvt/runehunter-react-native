@@ -16,10 +16,9 @@ import {
 import Floor from './Floor';
 
 // import { WarriorIdle, WarriorAttack, WarriorRun } from "./heroes/Warrior";
-import Warrior from "./heroes/Warrior";
-import { play } from "./heroes/Warrior";
-
-import Box from "../Box";
+import WarriorIdle from "./heroes/WarriorIdle";
+import WarriorAttack from './heroes/WarriorAttack';
+import WarriorRun from './heroes/WarriorRun';
 
 import { GameEngine, GameLoop } from 'react-native-game-engine';
 import { EventRegister } from 'react-native-event-listeners'
@@ -55,31 +54,23 @@ const Physics = (entities, { time }) => {
 export default class GameScene extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      type: 'idle',
-      direction: 'right',
-    };
+    this.direction = 'right';
   }
-
-  // updateGame = (entities, { touches, dispatch }) => {
-
-  //   if ( /* SOME CONDITION */ ) {
-  //     dispatch({ type: "game-over" });
-  //   }
-
-  //   return entities;
-  // }
 
   renderLeftRightButtons = () => {
     return (
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
           style={{ height: 90, width: 90 }}
+          onPressIn={() => this.engine.swap(this.getEntities('run', 'left'))}
+          onPressOut={() => this.engine.swap(this.getEntities('idle', 'left'))}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={leftButton} />
         </TouchableOpacity>
         <TouchableOpacity
           style={{ height: 90, width: 90 }}
+          onPressIn={() => this.engine.swap(this.getEntities('run', 'right'))}
+          onPressOut={() => this.engine.swap(this.getEntities('idle', 'right'))}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={rightButton} />
         </TouchableOpacity>
@@ -93,11 +84,8 @@ export default class GameScene extends Component {
         <TouchableOpacity
           style={{ height: 90, width: 90 }}
           onPress={() => {
-            EventRegister.emit('type', 'attack')
-            setTimeout(() => { EventRegister.emit('type', 'idle') }, 300)
-            // this.setState({ type: 'attack' }, () => this.engine.swap(this.getEntities()))
-            // this.setState({ type: 'attack' }, () => this.engine.swap(this.getEntities()))
-            // setTimeout(() => { this.setState({ type: 'idle' }, () => this.engine.swap(this.getEntities())) }, 100);
+            this.engine.swap(this.getEntities('attack', this.direction))
+            setTimeout(() => { this.engine.swap(this.getEntities('idle', this.direction)) }, 300);
           }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={attackButton} />
@@ -135,22 +123,19 @@ export default class GameScene extends Component {
     );
   }
 
-  getEntities = () => {
-    const { type, direction } = this.state;
+  getEntities = (type, direction) => {
+    this.direction = direction;
+    const component = type == 'attack' ? <WarriorAttack direction={direction} /> :
+      type == 'run' ? <WarriorRun direction={direction} /> : <WarriorIdle direction={direction} />;
+
     return {
       physics: { engine: engine, world: world },
       floor: { body: floor, size: [width, boxSize], color: "green", renderer: Floor },
       initialBox: {
-        body: initialBox, size: [225, 225], color: 'red', renderer: <Warrior type={type} direction={direction} />
+        body: initialBox, size: [225, 225], color: 'red', renderer: component
       }
     };
   };
-
-  // handleEvent = (ev) => {
-  //   if (this.state.type == 'attack') {
-  //     this.engine.swap(this.getEntities());
-  //   }
-  // };
 
   render() {
     return (
@@ -161,7 +146,6 @@ export default class GameScene extends Component {
           style={styles.gameContainer}
           systems={[Physics]}
           entities={this.getEntities()}
-        // onEvent={this.handleEvent}
         >
           <StatusBar hidden={true} />
         </GameEngine>
