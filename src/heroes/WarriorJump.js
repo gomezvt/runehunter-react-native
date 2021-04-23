@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Animated } from "react-native";
 import { array, object, string } from 'prop-types';
 import SpriteSheet from 'rn-sprite-sheet';
 
@@ -13,6 +13,7 @@ export default class WarriorJump extends Component {
       fps: '16',
       direction: 'right',
     };
+    this.offsetX = new Animated.Value(0)
   }
 
   componentDidMount() {
@@ -46,14 +47,7 @@ export default class WarriorJump extends Component {
 
   renderHero = () => {
     const data = this.getSpriteData();
-    const { left, width, top, height } = this.props.renderer.props;
-    return <View
-      style={{
-        left: left,
-        top: top,
-        width: width,
-        height: height,
-      }}>
+    return (
       <SpriteSheet
         ref={ref => (this.warrior = ref)}
         source={data.source}
@@ -65,12 +59,25 @@ export default class WarriorJump extends Component {
           jump: [0, 1]
         }}
       />
-    </View>
+    )
   }
 
   render() {
+    // const { left, width, top, height } = this.props.renderer.props;
+    const width = this.props.size && this.props.size[0];
+    const height = this.props.size && this.props.size[1];
+    const x = this.props.body && this.props.body.position.x - width / 2;
+    const y = this.props.body && this.props.body.position.y - height / 2;
     return (
-      this.renderHero()
+      <Animated.View style={{
+        transform: [{ translateX: this.offsetX }],
+        left: x,
+        top: y,
+        width: width,
+        height: height,
+      }}>
+        {this.renderHero()}
+      </Animated.View>
     );
   }
 }

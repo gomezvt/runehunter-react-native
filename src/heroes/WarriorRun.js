@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Animated } from "react-native";
 import { array, object, string } from 'prop-types';
 import SpriteSheet from 'rn-sprite-sheet';
+import { EventRegister } from 'react-native-event-listeners'
 
 export default class WarriorRun extends Component {
 
@@ -13,10 +14,23 @@ export default class WarriorRun extends Component {
       fps: '16',
       direction: 'right',
     };
+    this.offsetX = new Animated.Value(0)
   }
 
   componentDidMount() {
     this.play('run');
+    this.listener = EventRegister.addEventListener('direction', (value) => {
+      const offsetX = this.offsetX.__getValue();
+      const runValue = value == 'left' ? offsetX - 20 : offsetX + 20;
+      Animated.spring(
+        this.offsetX,
+        {
+          toValue: runValue,
+          useNativeDriver: false,
+        },
+      ).start();
+      EventRegister.emit('offsetX', runValue);
+    })
   }
 
   play = type => {
@@ -44,33 +58,41 @@ export default class WarriorRun extends Component {
     return { source: require('../../sprites/warrior/RunLeft.png'), cols: 6, width: 225 }
   }
 
+  componentWillUnmount() {
+    EventRegister.removeEventListener(this.listener)
+  }
+
   renderHero = () => {
     const data = this.getSpriteData();
-    const { left, width, top, height } = this.props.renderer.props;
-    return <View
-      style={{
-        left: left,
-        top: top,
-        width: width,
-        height: height,
-      }}>
-      <SpriteSheet
-        ref={ref => (this.warrior = ref)}
-        source={data.source}
-        columns={data.cols}
-        imageStyle={{ resizeMode: 'contain' }}
-        rows={1}
-        width={data.width}
-        animations={{
-          run: [0, 1, 2, 3, 4, 5],
-        }}
-      />
-    </View>
+    return <SpriteSheet
+      ref={ref => (this.warrior = ref)}
+      source={data.source}
+      columns={data.cols}
+      imageStyle={{ resizeMode: 'contain' }}
+      rows={1}
+      width={data.width}
+      animations={{
+        run: [0, 1, 2, 3, 4, 5],
+      }}
+    />
   }
 
   render() {
+    // const { left, width, top, height } = this.props.renderer.props;
+    const width = this.props.size && this.props.size[0];
+    const height = this.props.size && this.props.size[1];
+    const x = this.props.body && this.props.body.position.x - width / 2;
+    const y = this.props.body && this.props.body.position.y - height / 2;
     return (
-      this.renderHero()
+      <Animated.View style={{
+        transform: [{ translateX: this.offsetX }],
+        left: x,
+        top: y,
+        width: width,
+        height: height,
+      }}>
+        {this.renderHero()}
+      </Animated.View>
     );
   }
 }

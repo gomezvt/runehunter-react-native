@@ -15,7 +15,6 @@ import {
 } from 'react-native';
 import Floor from './Floor';
 
-// import { WarriorIdle, WarriorAttack, WarriorRun } from "./heroes/Warrior";
 import WarriorIdle from "./heroes/WarriorIdle";
 import WarriorAttack from './heroes/WarriorAttack';
 import WarriorRun from './heroes/WarriorRun';
@@ -57,10 +56,20 @@ export default class GameScene extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      left: 0,
       top: 0,
+      left: 0,
+      direction: 'right',
     }
-    this.direction = 'right';
+  }
+
+  run = (direction) => {
+    EventRegister.emit('direction', direction);
+    this.timer = setTimeout(this.run, 200);
+  }
+
+  stopMoving = (type) => {
+    this.setState({ type });
+    clearTimeout(this.timer);
   }
 
   renderLeftRightButtons = () => {
@@ -68,15 +77,27 @@ export default class GameScene extends Component {
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
           style={{ height: 90, width: 90 }}
-          onPressIn={() => this.engine.swap(this.getEntities('run', 'left'))}
-          onPressOut={() => this.engine.swap(this.getEntities('idle', 'left'))}
+          onPressIn={() => {
+            this.run('left');
+            this.engine.swap(this.getEntities('run', 'left'));
+          }}
+          onPressOut={() => {
+            this.stopMoving('idle');
+            this.engine.swap(this.getEntities('idle', 'left'));
+          }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={leftButton} />
         </TouchableOpacity>
         <TouchableOpacity
           style={{ height: 90, width: 90 }}
-          onPressIn={() => this.engine.swap(this.getEntities('run', 'right'))}
-          onPressOut={() => this.engine.swap(this.getEntities('idle', 'right'))}
+          onPressIn={() => {
+            this.run('right');
+            this.engine.swap(this.getEntities('run', 'right'));
+          }}
+          onPressOut={() => {
+            this.stopMoving('idle');
+            this.engine.swap(this.getEntities('idle', 'right'));
+          }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={rightButton} />
         </TouchableOpacity>
@@ -85,13 +106,14 @@ export default class GameScene extends Component {
   }
 
   renderABXButtons = () => {
+    const { direction } = this.state;
     return (
       <View style={{ flexDirection: 'row', position: 'absolute', right: 0 }}>
         <TouchableOpacity
           style={{ height: 90, width: 90 }}
           onPress={() => {
-            this.engine.swap(this.getEntities('attack', this.direction))
-            setTimeout(() => { this.engine.swap(this.getEntities('idle', this.direction)) }, 300);
+            this.engine.swap(this.getEntities('attack', direction))
+            setTimeout(() => { this.engine.swap(this.getEntities('idle', direction)) }, 300);
           }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={attackButton} />
@@ -100,8 +122,8 @@ export default class GameScene extends Component {
           onPress={() => { }}
           style={{ height: 90, width: 90 }}
           onPress={() => {
-            this.engine.swap(this.getEntities('jump', this.direction))
-            setTimeout(() => { this.engine.swap(this.getEntities('fall', this.direction)) }, 600)
+            this.engine.swap(this.getEntities('jump', direction))
+            setTimeout(() => { this.engine.swap(this.getEntities('fall', direction)) }, 600)
           }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={jumpButton} />
@@ -134,19 +156,17 @@ export default class GameScene extends Component {
   }
 
   getEntities = (type, direction) => {
-    const { left, top } = this.state;
-    this.direction = direction;
-    const component = type == 'attack' ? <WarriorAttack direction={direction} /> :
-      type == 'run' ? <WarriorRun width={width} height={height} left={left} top={top} direction={direction} /> :
-        type == 'jump' ? <WarriorJump width={width} height={height} left={left} top={top} direction={direction} /> :
-          type == 'fall' ? <WarriorFall width={width} height={height} left={left} top={top} direction={direction} /> :
-            <WarriorIdle width={width} height={height} left={left} top={top} direction={direction} />;
+    const hero = type == 'attack' ? <WarriorAttack direction={direction} /> :
+      type == 'run' ? <WarriorRun direction={direction} /> :
+        type == 'jump' ? <WarriorJump direction={direction} /> :
+          type == 'fall' ? <WarriorFall direction={direction} /> :
+            <WarriorIdle direction={direction} />
 
     return {
       physics: { engine: engine, world: world },
       floor: { body: floor, size: [width, boxSize], color: "green", renderer: Floor },
       initialBox: {
-        body: initialBox, size: [225, 225], color: 'red', renderer: component
+        body: initialBox, size: [225, 225], color: 'red', renderer: hero
       }
     };
   };
