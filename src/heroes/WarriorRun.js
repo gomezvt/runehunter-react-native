@@ -46,15 +46,11 @@ export default class WarriorRun extends Component {
 
   renderHero = () => {
     const data = this.getSpriteData();
-    const width = this.props.size && this.props.size[0];
-    const height = this.props.size && this.props.size[1];
-    const x = this.props.body && this.props.body.position.x - width / 2;
-    const y = this.props.body && this.props.body.position.y - height / 2;
-
+    const { left, width, top, height } = this.props.renderer.props;
     return <View
       style={{
-        left: x,
-        top: y,
+        left: left,
+        top: top,
         width: width,
         height: height,
       }}>

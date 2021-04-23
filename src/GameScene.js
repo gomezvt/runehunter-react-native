@@ -56,6 +56,10 @@ const Physics = (entities, { time }) => {
 export default class GameScene extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      left: 0,
+      top: 0,
+    }
     this.direction = 'right';
   }
 
@@ -130,12 +134,13 @@ export default class GameScene extends Component {
   }
 
   getEntities = (type, direction) => {
+    const { left, top } = this.state;
     this.direction = direction;
     const component = type == 'attack' ? <WarriorAttack direction={direction} /> :
-      type == 'run' ? <WarriorRun direction={direction} /> :
-        type == 'jump' ? <WarriorJump direction={direction} /> :
-          type == 'fall' ? <WarriorFall direction={direction} /> :
-            <WarriorIdle direction={direction} />;
+      type == 'run' ? <WarriorRun width={width} height={height} left={left} top={top} direction={direction} /> :
+        type == 'jump' ? <WarriorJump width={width} height={height} left={left} top={top} direction={direction} /> :
+          type == 'fall' ? <WarriorFall width={width} height={height} left={left} top={top} direction={direction} /> :
+            <WarriorIdle width={width} height={height} left={left} top={top} direction={direction} />;
 
     return {
       physics: { engine: engine, world: world },
