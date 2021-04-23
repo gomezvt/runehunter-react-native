@@ -47,7 +47,7 @@ export default class WarriorAttack extends Component {
 
   renderHero = () => {
     const data = this.getSpriteData();
-    <SpriteSheet
+    return <SpriteSheet
       ref={ref => (this.warrior = ref)}
       source={data.source}
       columns={data.cols}

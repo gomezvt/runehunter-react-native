@@ -63,6 +63,9 @@ export default class GameScene extends Component {
   }
 
   run = (direction) => {
+    if (this.state.direction !== direction) {
+      this.setState({ direction });
+    }
     EventRegister.emit('direction', direction);
     this.timer = setTimeout(this.run, 200);
   }
