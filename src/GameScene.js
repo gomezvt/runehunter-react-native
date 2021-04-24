@@ -36,17 +36,18 @@ const jumpButton = require('../img/controls/B_BUTTON.png');
 const specialButton = require('../img/controls/X_BUTTON.png');
 
 const boxSize = Math.trunc(Math.max(width, height) * 0.075);
-const initialBox = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
+const hero = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
 
 let engine = Matter.Engine.create({ enableSleeping: false });
 let world = engine.world;
 world.gravity.y = 2;
 let floor = Matter.Bodies.rectangle(width / 2, height - 100, width, 50, { isStatic: true });
-Matter.World.add(world, [initialBox, floor]);
+Matter.World.add(world, [hero, floor]);
 
 const Physics = (entities, { time }) => {
   let engine = entities.physics.engine;
   Matter.Engine.update(engine, time.delta);
+
   return entities;
 };
 
@@ -60,7 +61,7 @@ export default class GameScene extends Component {
       left: 0,
       direction: 'right',
     }
-    this.hero = null;
+    this.selectedHero = null;
   }
 
   run = (direction) => {
@@ -170,19 +171,19 @@ export default class GameScene extends Component {
   };
 
   getEntities = (type, direction) => {
-    const hero = type == 'attack' ? <WarriorAttack direction={direction} /> :
+    const selectedHero = type == 'attack' ? <WarriorAttack direction={direction} /> :
       type == 'run' ? <WarriorRun direction={direction} /> :
         type == 'jump' ? <WarriorJump direction={direction} /> :
           type == 'fall' ? <WarriorFall direction={direction} /> :
             <WarriorIdle direction={direction} />
 
-    this.hero = hero;
+    this.selectedHero = selectedHero;
 
     return {
       physics: { engine: engine, world: world },
       floor: { body: floor, size: [width, boxSize], color: "green", renderer: Floor },
-      initialBox: {
-        body: initialBox, size: [225, 225], color: 'red', renderer: hero
+      hero: {
+        body: hero, size: [225, 225], color: 'red', renderer: selectedHero
       }
     };
   };
@@ -198,7 +199,7 @@ export default class GameScene extends Component {
           entities={this.getEntities()}
           onEvent={this.onEvent}
           timer={this.updateHandler()}
-          running={true}
+          running
         >
           <StatusBar hidden={true} />
         </GameEngine>
