@@ -60,6 +60,7 @@ export default class GameScene extends Component {
       left: 0,
       direction: 'right',
     }
+    this.hero = null;
   }
 
   run = (direction) => {
@@ -68,6 +69,7 @@ export default class GameScene extends Component {
     }
     EventRegister.emit('direction', direction);
     this.timer = setTimeout(this.run, 200);
+    console.log('hit')
   }
 
   stopMoving = (type) => {
@@ -76,6 +78,7 @@ export default class GameScene extends Component {
   }
 
   renderLeftRightButtons = () => {
+    console.log("hit button")
     return (
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
@@ -158,12 +161,22 @@ export default class GameScene extends Component {
     );
   }
 
+  onEvent = (ev) => {
+    console.log('*** event ***', ev);
+  };
+
+  updateHandler = (ev) => {
+    console.log('*** timer ***', ev);
+  };
+
   getEntities = (type, direction) => {
     const hero = type == 'attack' ? <WarriorAttack direction={direction} /> :
       type == 'run' ? <WarriorRun direction={direction} /> :
         type == 'jump' ? <WarriorJump direction={direction} /> :
           type == 'fall' ? <WarriorFall direction={direction} /> :
             <WarriorIdle direction={direction} />
+
+    this.hero = hero;
 
     return {
       physics: { engine: engine, world: world },
@@ -183,6 +196,9 @@ export default class GameScene extends Component {
           style={styles.gameContainer}
           systems={[Physics]}
           entities={this.getEntities()}
+          onEvent={this.onEvent}
+          timer={this.updateHandler()}
+          running={true}
         >
           <StatusBar hidden={true} />
         </GameEngine>
