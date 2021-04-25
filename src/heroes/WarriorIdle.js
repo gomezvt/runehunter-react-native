@@ -14,18 +14,12 @@ export default class WarriorIdle extends Component {
       fps: '16',
       direction: 'right',
     };
-    this.offsetX = new Animated.Value(0)
+    const value = props && props.renderer ? props.renderer.props.offsetX : 0;
+    this.offsetX = new Animated.Value(value);
   }
 
   componentDidMount() {
     this.play('idle');
-    this.listener = EventRegister.addEventListener('offsetX', (value) => {
-      //TODO: set hero location at the same position where run animation left off
-      // if (value) {
-      //   const offsetX = this.offsetX.__getValue() + value;
-      //   this.offsetX.setValue(offsetX);
-      // }
-    })
   }
 
   play = type => {
@@ -77,7 +71,7 @@ export default class WarriorIdle extends Component {
     const data = this.props.renderer && this.getSpriteData();
     const width = this.props.size && this.props.size[0];
     const height = this.props.size && this.props.size[1];
-    const x = this.props.body && this.props.body.position.x - width / 2;
+    const x = this.offsetX.__getValue();
     const y = this.props.body && this.props.body.position.y - height / 2;
 
     return (

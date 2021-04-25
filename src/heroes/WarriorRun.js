@@ -14,14 +14,15 @@ export default class WarriorRun extends Component {
       fps: '16',
       direction: 'right',
     };
-    this.offsetX = new Animated.Value(0)
+    const value = props && props.renderer ? props.renderer.props.offsetX : 0;
+    this.offsetX = new Animated.Value(value);
   }
 
   componentDidMount() {
     this.play('run');
     this.listener = EventRegister.addEventListener('direction', (value) => {
       const offsetX = this.offsetX.__getValue();
-      const runValue = value == 'left' ? offsetX - 20 : offsetX + 20;
+      const runValue = value == 'left' ? offsetX - 10 : offsetX + 10;
       Animated.spring(
         this.offsetX,
         {
@@ -81,7 +82,7 @@ export default class WarriorRun extends Component {
     // const { left, width, top, height } = this.props.renderer.props;
     const width = this.props.size && this.props.size[0];
     const height = this.props.size && this.props.size[1];
-    const x = this.props.body && this.props.body.position.x - width / 2;
+    const x = this.offsetX.__getValue();
     const y = this.props.body && this.props.body.position.y - height / 2;
     return (
       <Animated.View style={{

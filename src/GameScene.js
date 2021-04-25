@@ -62,6 +62,14 @@ export default class GameScene extends Component {
       direction: 'right',
     }
     this.selectedHero = null;
+    this.offsetX = 0;
+  }
+
+  componentDidMount() {
+    this.listener = EventRegister.addEventListener('offsetX', (value) => {
+      console.log('check the incoming value', value)
+      this.offsetX = value;
+    });
   }
 
   run = (direction) => {
@@ -76,6 +84,7 @@ export default class GameScene extends Component {
   stopMoving = (type) => {
     this.setState({ type });
     clearTimeout(this.timer);
+    console.log('the stopped offsetX', this.offsetX)
   }
 
   renderLeftRightButtons = () => {
@@ -172,11 +181,12 @@ export default class GameScene extends Component {
 
   getEntities = (type, direction) => {
     const selectedHero = type == 'attack' ? <WarriorAttack direction={direction} /> :
-      type == 'run' ? <WarriorRun direction={direction} /> :
+      type == 'run' ? <WarriorRun offsetX={this.offsetX} direction={direction} /> :
         type == 'jump' ? <WarriorJump direction={direction} /> :
           type == 'fall' ? <WarriorFall direction={direction} /> :
-            <WarriorIdle direction={direction} />
+            <WarriorIdle offsetX={this.offsetX} direction={direction} />
 
+    console.log('switched entities with offsetX', this.offsetX)
     this.selectedHero = selectedHero;
 
     return {
