@@ -35,9 +35,9 @@ export default class WarriorIdle extends Component {
     }
   };
 
-  componentWillUnmount = (e) => {
-    console.log(e);
-  };
+  componentWillUnmount() {
+    EventRegister.removeEventListener(this.listener)
+  }
 
   stop = () => {
     console.log('stopped')

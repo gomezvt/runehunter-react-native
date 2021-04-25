@@ -72,13 +72,10 @@ export default class GameScene extends Component {
     });
   }
 
-  run = (direction) => {
-    if (this.state.direction !== direction) {
-      this.setState({ direction });
-    }
-    EventRegister.emit('direction', direction);
+  run = () => {
+    EventRegister.emit('direction', this.state.direction);
     this.timer = setTimeout(this.run, 200);
-    console.log('hit')
+    console.log('direction =====>', this.state.direction)
   }
 
   stopMoving = (type) => {
@@ -88,16 +85,22 @@ export default class GameScene extends Component {
   }
 
   renderLeftRightButtons = () => {
-    console.log("hit button")
+    const { direction } = this.state;
     return (
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
           style={{ height: 90, width: 90 }}
           onPressIn={() => {
-            this.run('left');
+            if (direction !== 'left') {
+              this.setState({ direction: 'left' });
+            }
+            this.run();
             this.engine.swap(this.getEntities('run', 'left'));
           }}
           onPressOut={() => {
+            if (direction !== 'left') {
+              this.setState({ direction: 'left' });
+            }
             this.stopMoving('idle');
             this.engine.swap(this.getEntities('idle', 'left'));
           }}
@@ -107,10 +110,16 @@ export default class GameScene extends Component {
         <TouchableOpacity
           style={{ height: 90, width: 90 }}
           onPressIn={() => {
-            this.run('right');
+            if (direction !== 'right') {
+              this.setState({ direction: 'right' });
+            }
+            this.run();
             this.engine.swap(this.getEntities('run', 'right'));
           }}
           onPressOut={() => {
+            if (direction !== 'right') {
+              this.setState({ direction: 'right' });
+            }
             this.stopMoving('idle');
             this.engine.swap(this.getEntities('idle', 'right'));
           }}
