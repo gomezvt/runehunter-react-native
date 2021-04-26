@@ -42,11 +42,13 @@ const hero = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
 let engine = Matter.Engine.create({ enableSleeping: false });
 let world = engine.world;
 world.gravity.y = 2;
-let floor = Matter.Bodies.rectangle(width / 2, height - 100, width, 50, { isStatic: true });
+let floor = Matter.Bodies.rectangle(width / 2, height - 150, width, 50, { isStatic: true });
 let leftWall = Matter.Bodies.rectangle(50, height - 100, width, 50, { isStatic: true });
 let rightWall = Matter.Bodies.rectangle(50, height - 100, width, 50, { isStatic: true });
 
-Matter.World.add(world, [hero, leftWall, rightWall, floor]);
+// Matter.World.add(world, [hero, leftWall, rightWall, floor]);
+Matter.World.add(world, [hero, floor]);
+
 
 const Physics = (entities, { time }) => {
   let engine = entities.physics.engine;
@@ -217,8 +219,8 @@ export default class GameScene extends Component {
     return {
       physics: { engine: engine, world: world },
       floor: { body: floor, size: [width, boxSize], color: "green", renderer: Floor },
-      leftWall: { body: leftWall, size: [boxSize, boxSize], color: "red", renderer: LeftWall },
-      rightWall: { body: rightWall, width: width, size: [boxSize, boxSize], color: "blue", renderer: RightWall },
+      // leftWall: { body: leftWall, size: [boxSize, boxSize], color: "red", renderer: LeftWall },
+      // rightWall: { body: rightWall, width: width, size: [boxSize, boxSize], color: "blue", renderer: RightWall },
       hero: {
         body: hero, size: [225, 225], color: 'red', renderer: selectedHero
       }

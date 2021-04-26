@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { View, Animated } from "react-native";
+import { View, Animated, Dimensions } from "react-native";
 import { array, object, string } from 'prop-types';
 import SpriteSheet from 'rn-sprite-sheet';
 import { EventRegister } from 'react-native-event-listeners'
+
+const { width } = Dimensions.get('window')
 
 export default class WarriorRun extends Component {
 
@@ -13,6 +15,7 @@ export default class WarriorRun extends Component {
       resetAfterFinish: false,
       fps: '16',
       direction: 'right',
+      width
     };
     const value = props && props.renderer ? props.renderer.props.offsetX : 0;
     this.offsetX = new Animated.Value(value);
@@ -22,7 +25,19 @@ export default class WarriorRun extends Component {
     this.play('run');
     this.listener = EventRegister.addEventListener('direction', (value) => {
       const offsetX = this.offsetX.__getValue();
-      const runValue = value == 'left' ? offsetX - 15 : offsetX + 15;
+      let runValue = 0;
+      if (value == 'left' && offsetX > -25) {
+        runValue = offsetX - 15
+      } else if (value == 'left' && offsetX <= -25) {
+        runValue = offsetX
+      }
+      
+      if (value == 'right' && offsetX < width / 2 - 100) {
+        runValue = offsetX + 15
+      } else if (value == 'right' && offsetX >= width / 2 - 100) {
+        runValue = offsetX
+      }
+      
       Animated.spring(
         this.offsetX,
         {
