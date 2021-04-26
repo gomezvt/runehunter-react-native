@@ -14,7 +14,8 @@ import {
   StatusBar
 } from 'react-native';
 import Floor from './Floor';
-
+import LeftWall from './LeftWall';
+import RightWall from './RightWall';
 import WarriorIdle from "./heroes/WarriorIdle";
 import WarriorAttack from './heroes/WarriorAttack';
 import WarriorRun from './heroes/WarriorRun';
@@ -42,7 +43,10 @@ let engine = Matter.Engine.create({ enableSleeping: false });
 let world = engine.world;
 world.gravity.y = 2;
 let floor = Matter.Bodies.rectangle(width / 2, height - 100, width, 50, { isStatic: true });
-Matter.World.add(world, [hero, floor]);
+let leftWall = Matter.Bodies.rectangle(50, height - 100, width, 50, { isStatic: true });
+let rightWall = Matter.Bodies.rectangle(50, height - 100, width, 50, { isStatic: true });
+
+Matter.World.add(world, [hero, leftWall, rightWall, floor]);
 
 const Physics = (entities, { time }) => {
   let engine = entities.physics.engine;
@@ -69,6 +73,13 @@ export default class GameScene extends Component {
     this.listener = EventRegister.addEventListener('offsetX', (value) => {
       console.log('check the incoming value', value)
       this.offsetX = value;
+    });
+
+    Matter.Events.on(engine, 'collisionStart', (event) => {
+      var pairs = event.pairs;
+      const t = pairs;
+      //TODO check if hero hits a wall and stop them in the eventhandler func
+      // this.gameEngine.dispatch({ type: "game-over" });
     });
   }
 
@@ -180,9 +191,14 @@ export default class GameScene extends Component {
     );
   }
 
-  onEvent = (ev) => {
-    console.log('*** event ***', ev);
-  };
+  onEvent = (e) => {
+    if (e.type === "game-over") {
+      //Alert.alert("Game Over");
+      this.setState({
+        running: false
+      });
+    }
+  }
 
   updateHandler = (ev) => {
     console.log('*** timer ***', ev);
@@ -201,6 +217,8 @@ export default class GameScene extends Component {
     return {
       physics: { engine: engine, world: world },
       floor: { body: floor, size: [width, boxSize], color: "green", renderer: Floor },
+      leftWall: { body: leftWall, size: [boxSize, boxSize], color: "red", renderer: LeftWall },
+      rightWall: { body: rightWall, width: width, size: [boxSize, boxSize], color: "blue", renderer: RightWall },
       hero: {
         body: hero, size: [225, 225], color: 'red', renderer: selectedHero
       }
