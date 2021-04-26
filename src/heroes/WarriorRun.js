@@ -22,7 +22,7 @@ export default class WarriorRun extends Component {
     this.play('run');
     this.listener = EventRegister.addEventListener('direction', (value) => {
       const offsetX = this.offsetX.__getValue();
-      const runValue = value == 'left' ? offsetX - 10 : offsetX + 10;
+      const runValue = value == 'left' ? offsetX - 15 : offsetX + 15;
       Animated.spring(
         this.offsetX,
         {

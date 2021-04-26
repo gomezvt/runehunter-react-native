@@ -189,7 +189,7 @@ export default class GameScene extends Component {
   };
 
   getEntities = (type, direction) => {
-    const selectedHero = type == 'attack' ? <WarriorAttack direction={direction} /> :
+    const selectedHero = type == 'attack' ? <WarriorAttack offsetX={this.offsetX} direction={direction} /> :
       type == 'run' ? <WarriorRun offsetX={this.offsetX} direction={direction} /> :
         type == 'jump' ? <WarriorJump direction={direction} /> :
           type == 'fall' ? <WarriorFall direction={direction} /> :

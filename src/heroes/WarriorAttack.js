@@ -13,7 +13,8 @@ export default class WarriorAttack extends Component {
       fps: '16',
       direction: 'right',
     };
-    this.offsetX = new Animated.Value(0)
+    const value = props && props.renderer ? props.renderer.props.offsetX : 0;
+    this.offsetX = new Animated.Value(value);
   }
 
   componentDidMount() {
@@ -64,7 +65,7 @@ export default class WarriorAttack extends Component {
     // const { left, width, top, height } = this.props.renderer.props;
     const width = this.props.size && this.props.size[0];
     const height = this.props.size && this.props.size[1];
-    const x = this.props.body && this.props.body.position.x - width / 2;
+    const x = this.offsetX.__getValue();
     const y = this.props.body && this.props.body.position.y - height / 2;
     return (
       <Animated.View style={{
