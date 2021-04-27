@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { View, Animated } from "react-native";
+import { View, Animated, Dimensions } from "react-native";
 import { array, object, string } from 'prop-types';
 import SpriteSheet from 'rn-sprite-sheet';
+import { EventRegister } from 'react-native-event-listeners'
+const { width } = Dimensions.get('window')
 
 export default class WarriorJump extends Component {
 
@@ -13,11 +15,49 @@ export default class WarriorJump extends Component {
       fps: '16',
       direction: 'right',
     };
-    this.offsetX = new Animated.Value(0)
+    const value = props && props.renderer ? props.renderer.props.offsetX : 0;
+    this.offsetX = new Animated.Value(value);
+    this.offsetY = new Animated.Value(0);
   }
 
   componentDidMount() {
     this.play('jump');
+    this.listener = EventRegister.addEventListener('direction', (value) => {
+      // const offsetX = this.offsetX.__getValue();
+      // let runValue = 0;
+      // if (value == 'left' && offsetX > -25) {
+      //   runValue = offsetX - 15
+      // } else if (value == 'left' && offsetX <= -25) {
+      //   runValue = offsetX
+      // }
+
+      // if (value == 'right' && offsetX < width / 2 - 100) {
+      //   runValue = offsetX + 15
+      // } else if (value == 'right' && offsetX >= width / 2 - 100) {
+      //   runValue = offsetX
+      // }
+
+      Animated.spring(
+        this.offsetY,
+        {
+          toValue: 100,
+          useNativeDriver: false,
+        },
+        // this.offsetX,
+        // {
+        //   toValue: runValue,
+        //   useNativeDriver: false,
+        // },
+      ).start();
+    })
+    // Animated.spring(
+    //   this.offsetX,
+    //   {
+    //     toValue: runValue,
+    //     useNativeDriver: false,
+    //   },
+    // ).start();
+    // EventRegister.emit('offsetX', runValue);
   }
 
   play = type => {
@@ -66,11 +106,11 @@ export default class WarriorJump extends Component {
     // const { left, width, top, height } = this.props.renderer.props;
     const width = this.props.size && this.props.size[0];
     const height = this.props.size && this.props.size[1];
-    const x = this.props.body && this.props.body.position.x - width / 2;
-    const y = this.props.body && this.props.body.position.y - height / 2;
+    const x = this.offsetX.__getValue();
+    const y = this.offsetY.__getValue(); //this.props.body && this.props.body.position.y - height / 2;
     return (
       <Animated.View style={{
-        transform: [{ translateX: this.offsetX }],
+        transform: [{ translateX: this.offsetX }, { translateY: this.offsetY }],
         left: x,
         top: y,
         width: width,

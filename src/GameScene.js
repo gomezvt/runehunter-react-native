@@ -85,6 +85,16 @@ export default class GameScene extends Component {
     });
   }
 
+  jump = () => {
+    EventRegister.emit('direction', this.state.direction);
+    console.log('direction =====>', this.state.direction)
+  }
+
+  fall = () => {
+    EventRegister.emit('direction', this.state.direction);
+    console.log('direction =====>', this.state.direction)
+  }
+
   run = () => {
     EventRegister.emit('direction', this.state.direction);
     this.timer = setTimeout(this.run, 200);
@@ -160,8 +170,12 @@ export default class GameScene extends Component {
           onPress={() => { }}
           style={{ height: 90, width: 90 }}
           onPress={() => {
+            this.jump();
             this.engine.swap(this.getEntities('jump', direction))
-            setTimeout(() => { this.engine.swap(this.getEntities('fall', direction)) }, 600)
+            setTimeout(() => {
+              this.engine.swap(this.getEntities('fall', direction))
+              this.fall();
+            }, 600)
           }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={jumpButton} />
@@ -209,8 +223,8 @@ export default class GameScene extends Component {
   getEntities = (type, direction) => {
     const selectedHero = type == 'attack' ? <WarriorAttack offsetX={this.offsetX} direction={direction} /> :
       type == 'run' ? <WarriorRun offsetX={this.offsetX} direction={direction} /> :
-        type == 'jump' ? <WarriorJump direction={direction} /> :
-          type == 'fall' ? <WarriorFall direction={direction} /> :
+        type == 'jump' ? <WarriorJump offsetX={this.offsetX} direction={direction} /> :
+          type == 'fall' ? <WarriorFall offsetX={this.offsetX} direction={direction} /> :
             <WarriorIdle offsetX={this.offsetX} direction={direction} />
 
     console.log('switched entities with offsetX', this.offsetX)
