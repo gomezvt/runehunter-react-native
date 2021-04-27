@@ -38,10 +38,10 @@ const specialButton = require('../img/controls/X_BUTTON.png');
 
 const boxSize = Math.trunc(Math.max(width, height) * 0.075);
 const hero = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
-
 let engine = Matter.Engine.create({ enableSleeping: false });
 let world = engine.world;
-world.gravity.y = 2;
+world.gravity.y = 1;
+
 let floor = Matter.Bodies.rectangle(width / 2, height - 150, width, 50, { isStatic: true });
 let leftWall = Matter.Bodies.rectangle(50, height - 100, width, 50, { isStatic: true });
 let rightWall = Matter.Bodies.rectangle(50, height - 100, width, 50, { isStatic: true });
@@ -88,6 +88,11 @@ export default class GameScene extends Component {
   jump = () => {
     EventRegister.emit('direction', this.state.direction);
     console.log('direction =====>', this.state.direction)
+    // const hero = this.getEntities().hero;
+    // Matter.Body.setVelocity(hero.body, {
+    //   x: this.offsetX,
+    //   y: 60,
+    // });
   }
 
   fall = () => {
@@ -173,9 +178,12 @@ export default class GameScene extends Component {
             this.jump();
             this.engine.swap(this.getEntities('jump', direction))
             setTimeout(() => {
-              this.engine.swap(this.getEntities('fall', direction))
               this.fall();
-            }, 600)
+              this.engine.swap(this.getEntities('fall', direction))
+              setTimeout(() => {
+                this.engine.swap(this.getEntities('idle', direction))
+              }, 100)
+            }, 300)
           }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={jumpButton} />

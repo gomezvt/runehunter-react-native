@@ -69,7 +69,7 @@ export default class WarriorAttack extends Component {
     const y = this.props.body && this.props.body.position.y - height / 2;
     return (
       <Animated.View style={{
-        transform: [{ translateX: this.offsetX }],
+        transform: [{ translateX: this.offsetX }, { perspective: 1000 }],
         left: x,
         top: y,
         width: width,

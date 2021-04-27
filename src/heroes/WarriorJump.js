@@ -23,41 +23,8 @@ export default class WarriorJump extends Component {
   componentDidMount() {
     this.play('jump');
     this.listener = EventRegister.addEventListener('direction', (value) => {
-      // const offsetX = this.offsetX.__getValue();
-      // let runValue = 0;
-      // if (value == 'left' && offsetX > -25) {
-      //   runValue = offsetX - 15
-      // } else if (value == 'left' && offsetX <= -25) {
-      //   runValue = offsetX
-      // }
-
-      // if (value == 'right' && offsetX < width / 2 - 100) {
-      //   runValue = offsetX + 15
-      // } else if (value == 'right' && offsetX >= width / 2 - 100) {
-      //   runValue = offsetX
-      // }
-
-      Animated.spring(
-        this.offsetY,
-        {
-          toValue: 100,
-          useNativeDriver: false,
-        },
-        // this.offsetX,
-        // {
-        //   toValue: runValue,
-        //   useNativeDriver: false,
-        // },
-      ).start();
+      // TODO: figure out correct way to SMOOTHLY animate jump
     })
-    // Animated.spring(
-    //   this.offsetX,
-    //   {
-    //     toValue: runValue,
-    //     useNativeDriver: false,
-    //   },
-    // ).start();
-    // EventRegister.emit('offsetX', runValue);
   }
 
   play = type => {
@@ -107,10 +74,10 @@ export default class WarriorJump extends Component {
     const width = this.props.size && this.props.size[0];
     const height = this.props.size && this.props.size[1];
     const x = this.offsetX.__getValue();
-    const y = this.offsetY.__getValue(); //this.props.body && this.props.body.position.y - height / 2;
+    const y = this.offsetY.__getValue() - 75; //this.props.body && this.props.body.position.y - height / 2;
     return (
       <Animated.View style={{
-        transform: [{ translateX: this.offsetX }, { translateY: this.offsetY }],
+        transform: [{ translateX: this.offsetX }, { translateY: this.offsetY }, { perspective: 1000 }],
         left: x,
         top: y,
         width: width,

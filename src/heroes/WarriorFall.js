@@ -24,26 +24,6 @@ export default class WarriorFall extends Component {
     this.play('fall');
     this.listener = EventRegister.addEventListener('direction', (value) => {
       // const offsetX = this.offsetX.__getValue();
-      // let runValue = 0;
-      // if (value == 'left' && offsetX > -25) {
-      //   runValue = offsetX - 15
-      // } else if (value == 'left' && offsetX <= -25) {
-      //   runValue = offsetX
-      // }
-
-      // if (value == 'right' && offsetX < width / 2 - 100) {
-      //   runValue = offsetX + 15
-      // } else if (value == 'right' && offsetX >= width / 2 - 100) {
-      //   runValue = offsetX
-      // }
-
-      // Animated.spring(
-      //   this.offsetY,
-      //   {
-      //     toValue: 0,
-      //     useNativeDriver: false,
-      //   },
-      // ).start();
     })
   }
 
