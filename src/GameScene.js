@@ -85,6 +85,10 @@ export default class GameScene extends Component {
     });
   }
 
+  componentWillUnmount() {
+    EventRegister.removeEventListener(this.listener)
+  }
+
   jump = () => {
     EventRegister.emit('direction', this.state.direction);
     console.log('direction =====>', this.state.direction)

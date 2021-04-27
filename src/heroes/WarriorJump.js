@@ -27,6 +27,10 @@ export default class WarriorJump extends Component {
     })
   }
 
+  componentWillUnmount() {
+    EventRegister.removeEventListener(this.listener)
+  }
+
   play = type => {
     const { fps, loop, resetAfterFinish } = this.state;
     if (this.warrior) {
@@ -74,7 +78,7 @@ export default class WarriorJump extends Component {
     const width = this.props.size && this.props.size[0];
     const height = this.props.size && this.props.size[1];
     const x = this.offsetX.__getValue();
-    const y = this.offsetY.__getValue() - 75; //this.props.body && this.props.body.position.y - height / 2;
+    const y = this.offsetY.__getValue(); //this.props.body && this.props.body.position.y - height / 2;
     return (
       <Animated.View style={{
         transform: [{ translateX: this.offsetX }, { translateY: this.offsetY }, { perspective: 1000 }],

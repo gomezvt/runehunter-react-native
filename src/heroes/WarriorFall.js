@@ -22,9 +22,6 @@ export default class WarriorFall extends Component {
 
   componentDidMount() {
     this.play('fall');
-    this.listener = EventRegister.addEventListener('direction', (value) => {
-      // const offsetX = this.offsetX.__getValue();
-    })
   }
 
   play = type => {
