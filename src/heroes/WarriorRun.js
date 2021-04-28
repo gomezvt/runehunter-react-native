@@ -44,8 +44,9 @@ export default class WarriorRun extends Component {
           toValue: runValue,
           useNativeDriver: false,
         },
-      ).start();
-      EventRegister.emit('offsetX', runValue);
+      ).start(() => {
+        EventRegister.emit('offsetX', runValue);
+      });
     })
   }
 

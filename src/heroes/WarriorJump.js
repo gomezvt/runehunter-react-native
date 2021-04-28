@@ -24,6 +24,34 @@ export default class WarriorJump extends Component {
     this.play('jump');
     this.listener = EventRegister.addEventListener('direction', (value) => {
       // TODO: figure out correct way to SMOOTHLY animate jump
+      const offsetX = this.offsetX.__getValue();
+      let runValue = 0;
+      if (value == 'left' && offsetX > -25) {
+        runValue = offsetX - 25
+      } else if (value == 'left' && offsetX <= -25) {
+        runValue = offsetX
+      }
+
+      if (value == 'right' && offsetX < width / 2 - 100) {
+        runValue = offsetX + 25
+      } else if (value == 'right' && offsetX >= width / 2 - 100) {
+        runValue = offsetX
+      }
+
+      EventRegister.emit('offsetX', runValue);
+      
+      Animated.parallel([
+        Animated.spring(this.offsetY, {
+          toValue: 100,
+          useNativeDriver: true
+        }),
+        Animated.spring(this.offsetX, {
+          toValue: runValue,
+          useNativeDriver: true
+        }),
+      ]).start(() => {
+        // EventRegister.emit('offsetX', runValue);
+      });
     })
   }
 
