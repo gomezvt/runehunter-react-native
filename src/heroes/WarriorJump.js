@@ -10,49 +10,29 @@ export default class WarriorJump extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loop: true,
+      loop: false,
       resetAfterFinish: false,
       fps: '16',
       direction: 'right',
     };
-    const value = props && props.renderer ? props.renderer.props.offsetX : 0;
-    this.offsetX = new Animated.Value(value);
-    this.offsetY = new Animated.Value(0);
+    const valueX = props && props.renderer ? props.renderer.props.offsetX : 0;
+    this.offsetX = new Animated.Value(valueX);
+    const heroY = props.renderer.props.offsetY;
+    let valueY = props && props.renderer ? heroY / 3 : 0;
+    this.offsetY = new Animated.Value(valueY);
   }
 
   componentDidMount() {
     this.play('jump');
-    this.listener = EventRegister.addEventListener('direction', (value) => {
-      // TODO: figure out correct way to SMOOTHLY animate jump
-      const offsetX = this.offsetX.__getValue();
-      let runValue = 0;
-      if (value == 'left' && offsetX > -25) {
-        runValue = offsetX - 25
-      } else if (value == 'left' && offsetX <= -25) {
-        runValue = offsetX
-      }
-
-      if (value == 'right' && offsetX < width / 2 - 100) {
-        runValue = offsetX + 25
-      } else if (value == 'right' && offsetX >= width / 2 - 100) {
-        runValue = offsetX
-      }
-
-      EventRegister.emit('offsetX', runValue);
-      
-      Animated.parallel([
-        Animated.spring(this.offsetY, {
-          toValue: 100,
-          useNativeDriver: true
-        }),
-        Animated.spring(this.offsetX, {
-          toValue: runValue,
-          useNativeDriver: true
-        }),
-      ]).start(() => {
-        // EventRegister.emit('offsetX', runValue);
-      });
-    })
+    Animated.spring(
+      this.offsetY,
+      {
+        toValue: -50,
+        useNativeDriver: false,
+      },
+    ).start(() => {
+      EventRegister.emit('type', 'fall');
+    });
   }
 
   componentWillUnmount() {
@@ -102,11 +82,10 @@ export default class WarriorJump extends Component {
   }
 
   render() {
-    // const { left, width, top, height } = this.props.renderer.props;
     const width = this.props.size && this.props.size[0];
     const height = this.props.size && this.props.size[1];
     const x = this.offsetX.__getValue();
-    const y = this.offsetY.__getValue(); //this.props.body && this.props.body.position.y - height / 2;
+    const y = this.props.offsetY
     return (
       <Animated.View style={{
         transform: [{ translateX: this.offsetX }, { translateY: this.offsetY }, { perspective: 1000 }],

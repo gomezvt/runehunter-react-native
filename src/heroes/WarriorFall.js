@@ -17,7 +17,9 @@ export default class WarriorFall extends Component {
     };
     const value = props && props.renderer ? props.renderer.props.offsetX : 0;
     this.offsetX = new Animated.Value(value);
-    // this.offsetY = new Animated.Value(0);
+    // const heroY = props.renderer.props.offsetY || 0;
+    // this.offsetY = new Animated.Value(heroY);
+    // console.log('FALL y', this.offsetY)
   }
 
   componentDidMount() {
@@ -69,13 +71,13 @@ export default class WarriorFall extends Component {
     const width = this.props.size && this.props.size[0];
     const height = this.props.size && this.props.size[1];
     const x = this.offsetX.__getValue();
-    const y = this.props.body && this.props.body.position.y - height / 2;
+    // const y = this.props.body && this.props.body.position.y - height / 2;
     // const y = this.offsetY.__getValue(); //this.props.body && this.props.body.position.y - height / 2;
     return (
       <Animated.View style={{
         transform: [{ translateX: this.offsetX }],
         left: x,
-        top: y,
+        // top: y,
         width: width,
         height: height,
       }}>

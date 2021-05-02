@@ -54,6 +54,7 @@ const Physics = (entities, { time }) => {
   let engine = entities.physics.engine;
   Matter.Engine.update(engine, time.delta);
 
+
   return entities;
 };
 
@@ -69,9 +70,20 @@ export default class GameScene extends Component {
     }
     this.selectedHero = null;
     this.offsetX = 0;
+    this.offsetY = 0;
   }
 
   componentDidMount() {
+    this.listener = EventRegister.addEventListener('offsetX', (value) => {
+      console.log('check the incoming value', value)
+      this.offsetX = value;
+    });
+    this.listener = EventRegister.addEventListener('type', (value) => {
+      console.log('swapping with type', value)
+      this.engine.swap(this.getEntities(value, this.state.direction));
+    });
+
+
     this.listener = EventRegister.addEventListener('offsetX', (value) => {
       console.log('check the incoming value', value)
       this.offsetX = value;
@@ -230,17 +242,27 @@ export default class GameScene extends Component {
 
   updateHandler = (ev) => {
     console.log('*** timer ***', ev);
+    const entities = this.getEntities();
+    const hero = entities.hero;
+    if (hero.body.position.y !== this.offsetY) {
+      console.log('HEREs where Y gets set', hero.body.position)
+      this.offsetY = hero.body.position.y;
+    }
   };
 
   getEntities = (type, direction) => {
+    console.log('TYPE AND DIRECTION here===========>', type, direction);
     const selectedHero = type == 'attack' ? <WarriorAttack offsetX={this.offsetX} direction={direction} /> :
       type == 'run' ? <WarriorRun offsetX={this.offsetX} direction={direction} /> :
-        type == 'jump' ? <WarriorJump offsetX={this.offsetX} direction={direction} /> :
-          type == 'fall' ? <WarriorFall offsetX={this.offsetX} direction={direction} /> :
+        type == 'jump' ? <WarriorJump offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
+          type == 'fall' ? <WarriorFall offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
             <WarriorIdle offsetX={this.offsetX} direction={direction} />
 
     console.log('switched entities with offsetX', this.offsetX)
     this.selectedHero = selectedHero;
+
+    // hero.mass = 75 sets it 
+    console.log('the log', hero)
 
     return {
       physics: { engine: engine, world: world },
