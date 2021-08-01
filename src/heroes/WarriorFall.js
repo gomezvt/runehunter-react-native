@@ -3,8 +3,8 @@ import { View, Animated, Dimensions } from "react-native";
 import { array, object, string } from 'prop-types';
 import SpriteSheet from 'rn-sprite-sheet';
 import { EventRegister } from 'react-native-event-listeners'
+const { height } = Dimensions.get('window')
 const { width } = Dimensions.get('window')
-
 export default class WarriorFall extends Component {
 
   constructor(props) {
@@ -68,16 +68,15 @@ export default class WarriorFall extends Component {
 
   render() {
     // const { left, width, top, height } = this.props.renderer.props;
-    const width = this.props.size && this.props.size[0];
-    const height = this.props.size && this.props.size[1];
     const x = this.offsetX.__getValue();
+    const y = this.offsetY
     // const y = this.props.body && this.props.body.position.y - height / 2;
     // const y = this.offsetY.__getValue(); //this.props.body && this.props.body.position.y - height / 2;
     return (
       <Animated.View style={{
         transform: [{ translateX: this.offsetX }],
         left: x,
-        // top: y,
+        top: y,
         width: width,
         height: height,
       }}>

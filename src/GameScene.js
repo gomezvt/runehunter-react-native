@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import { styles } from '../styles';
 import {
-  Platform,
-  Text,
   View,
-  SafeAreaView,
   Image,
   TouchableOpacity,
-  ImageBackground,
   Dimensions,
-  Animated,
-  Easing,
   StatusBar
 } from 'react-native';
 import Floor from './Floor';
@@ -22,7 +16,7 @@ import WarriorRun from './heroes/WarriorRun';
 import WarriorJump from './heroes/WarriorJump';
 import WarriorFall from './heroes/WarriorFall';
 
-import { GameEngine, GameLoop } from 'react-native-game-engine';
+import { GameEngine } from 'react-native-game-engine';
 import { EventRegister } from 'react-native-event-listeners'
 import Matter from "matter-js";
 
@@ -38,26 +32,27 @@ const specialButton = require('../img/controls/X_BUTTON.png');
 
 const boxSize = Math.trunc(Math.max(width, height) * 0.075);
 const hero = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
+
 let engine = Matter.Engine.create({ enableSleeping: false });
-let world = engine.world;
-world.gravity.y = 1;
-
+// let render = Matter.Render.create({
+//   engine: engine,
+// })
 let floor = Matter.Bodies.rectangle(width / 2, height - 150, width, 50, { isStatic: true });
-let leftWall = Matter.Bodies.rectangle(50, height - 100, width, 50, { isStatic: true });
-let rightWall = Matter.Bodies.rectangle(50, height - 100, width, 50, { isStatic: true });
+let world = engine.world;
 
-// Matter.World.add(world, [hero, leftWall, rightWall, floor]);
 Matter.World.add(world, [hero, floor]);
+// Matter.Render.run(render)
+// Matter.Engine.run(engine)
 
-
-const Physics = (entities, { time }) => {
-  let engine = entities.physics.engine;
-  Matter.Engine.update(engine, time.delta);
-
-
-  return entities;
-};
-
+// const Physics = (entities, { time, dispatch }) => {
+//   let engine = entities.physics.engine;
+//   Matter.Engine.update(engine, time.delta);
+//   console.log('hero body y', entities.hero.body.position.y)
+//   if (entities.hero.body.position.y > 184) {
+//     console.log('went up entities.hero.body.position.y', entities.hero.body.position.y)
+//   }
+//   return entities;
+// };
 
 
 export default class GameScene extends Component {
@@ -67,65 +62,90 @@ export default class GameScene extends Component {
       top: 0,
       left: 0,
       direction: 'right',
+      isRunningLeft: false,
+      isRunningRight: false
     }
     this.selectedHero = null;
     this.offsetX = 0;
-    this.offsetY = 0;
+    this.offsetY = height / 7
   }
+
+
+
 
   componentDidMount() {
-    this.listener = EventRegister.addEventListener('offsetX', (value) => {
+    this.xlistener = EventRegister.addEventListener('offsetX', (value) => {
       console.log('check the incoming value', value)
       this.offsetX = value;
     });
-    this.listener = EventRegister.addEventListener('type', (value) => {
+    this.typelistener = EventRegister.addEventListener('type', (value) => {
       console.log('swapping with type', value)
-      this.engine.swap(this.getEntities(value, this.state.direction));
+      this.engine.swap(this.getEntities(value));
     });
 
-
-    this.listener = EventRegister.addEventListener('offsetX', (value) => {
-      console.log('check the incoming value', value)
-      this.offsetX = value;
-    });
-
-    Matter.Events.on(engine, 'collisionStart', (event) => {
-      var pairs = event.pairs;
-      const t = pairs;
-      //TODO check if hero hits a wall and stop them in the eventhandler func
-      // this.gameEngine.dispatch({ type: "game-over" });
-    });
-  }
-
-  componentWillUnmount() {
-    EventRegister.removeEventListener(this.listener)
-  }
-
-  jump = () => {
-    EventRegister.emit('direction', this.state.direction);
-    console.log('direction =====>', this.state.direction)
-    // const hero = this.getEntities().hero;
-    // Matter.Body.setVelocity(hero.body, {
-    //   x: this.offsetX,
-    //   y: 60,
+    // Matter.Events.on(engine, 'collisionStart', (event) => {
+    //   var pairs = event.pairs;
+    //   const t = pairs;
     // });
   }
 
-  fall = () => {
-    EventRegister.emit('direction', this.state.direction);
-    console.log('direction =====>', this.state.direction)
+  // componentWillUnmount() {
+  // EventRegister.removeEventListener(this.xlistener)
+  // EventRegister.removeEventListener(this.typelistener)
+  // clearTimeout(this.timer);
+  // }
+
+  jump = () => {
+    this.engine.swap(this.getEntities('jump')).then(() => {
+      setTimeout(() => {
+        this.engine.swap(this.getEntities('fall')).then(() => {
+          setTimeout(() => {
+            this.idle()
+          }, 100)
+        })
+      }, 400)
+    })
   }
+
+  // fall = () => {
+  //   EventRegister.emit('direction', this.state.direction);
+  //   console.log('direction =====>', this.state.direction)
+  //   if (this.state.direction == undefined) {
+  //     console.log('check undefined')
+  //   }
+  // }
 
   run = () => {
-    EventRegister.emit('direction', this.state.direction);
-    this.timer = setTimeout(this.run, 200);
-    console.log('direction =====>', this.state.direction)
+    // this.timer = setTimeout(this.run, 200);
+    if (this.state.direction == undefined) {
+      console.log('check undefined')
+    }
+
+    if (this.state.direction == 'left' && this.offsetX > -25) {
+      this.offsetX -= 1
+      console.log('offsetX = ', this.offsetX)
+    } else if (this.state.direction == 'left' && this.offsetX <= -25) {
+      // runValue = offsetX
+    }
+
+    if (this.state.direction == 'right' && this.offsetX < width / 2 - 100) {
+      this.offsetX += 1
+      console.log('offsetX = ', this.offsetX)
+    } else if (this.state.direction == 'right' && this.offsetX >= width / 2 - 100) {
+      // this.runValue = this.offsetX
+    }
+
+    this.engine.swap(this.getEntities('run')).then(() => {
+      // console.log(`running ${this.state.direction}`);
+      // this.run();
+    })
   }
 
-  stopMoving = (type) => {
-    this.setState({ type });
-    clearTimeout(this.timer);
-    console.log('the stopped offsetX', this.offsetX)
+  idle = () => {
+    // clearTimeout(this.timer);
+    this.engine.swap(this.getEntities('idle')).then(() => {
+      console.log('idling');
+    })
   }
 
   renderLeftRightButtons = () => {
@@ -136,17 +156,13 @@ export default class GameScene extends Component {
           style={{ height: 90, width: 90 }}
           onPressIn={() => {
             if (direction !== 'left') {
-              this.setState({ direction: 'left' });
+              this.setState({ direction: 'left', isRunningLeft: true }, () => this.run());
+            } else {
+              this.setState({ isRunningLeft: true }, () => this.run());
             }
-            this.run();
-            this.engine.swap(this.getEntities('run', 'left'));
           }}
           onPressOut={() => {
-            if (direction !== 'left') {
-              this.setState({ direction: 'left' });
-            }
-            this.stopMoving('idle');
-            this.engine.swap(this.getEntities('idle', 'left'));
+            this.setState({ isRunningLeft: false }, () => this.idle());
           }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={leftButton} />
@@ -155,17 +171,13 @@ export default class GameScene extends Component {
           style={{ height: 90, width: 90 }}
           onPressIn={() => {
             if (direction !== 'right') {
-              this.setState({ direction: 'right' });
+              this.setState({ direction: 'right', isRunningRight: true }, () => this.run());
+            } else {
+              this.setState({ isRunningRight: true }, () => this.run());
             }
-            this.run();
-            this.engine.swap(this.getEntities('run', 'right'));
           }}
           onPressOut={() => {
-            if (direction !== 'right') {
-              this.setState({ direction: 'right' });
-            }
-            this.stopMoving('idle');
-            this.engine.swap(this.getEntities('idle', 'right'));
+            this.setState({ isRunningRight: false }, () => this.idle());
           }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={rightButton} />
@@ -175,31 +187,22 @@ export default class GameScene extends Component {
   }
 
   renderABXButtons = () => {
-    const { direction } = this.state;
     return (
       <View style={{ flexDirection: 'row', position: 'absolute', right: 0 }}>
         <TouchableOpacity
           style={{ height: 90, width: 90 }}
           onPress={() => {
-            this.engine.swap(this.getEntities('attack', direction))
-            setTimeout(() => { this.engine.swap(this.getEntities('idle', direction)) }, 300);
+            this.engine.swap(this.getEntities('attack'))
+            setTimeout(() => { this.engine.swap(this.getEntities('idle')) }, 300);
           }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={attackButton} />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => { }}
           style={{ height: 90, width: 90 }}
+          onMoveShouldSetResponder
           onPress={() => {
             this.jump();
-            this.engine.swap(this.getEntities('jump', direction))
-            setTimeout(() => {
-              this.fall();
-              this.engine.swap(this.getEntities('fall', direction))
-              setTimeout(() => {
-                this.engine.swap(this.getEntities('idle', direction))
-              }, 100)
-            }, 300)
           }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={jumpButton} />
@@ -232,43 +235,46 @@ export default class GameScene extends Component {
   }
 
   onEvent = (e) => {
-    if (e.type === "game-over") {
-      //Alert.alert("Game Over");
-      this.setState({
-        running: false
-      });
-    }
+    console.log('Dispatched event = ', e);
+    // if (e.type === "game-over") {
+    //Alert.alert("Game Over");
+    //   this.setState({
+    //     running: false
+    //   });
+    // }
   }
 
+  // GameEngine timer
   updateHandler = (ev) => {
-    console.log('*** timer ***', ev);
-    const entities = this.getEntities();
-    const hero = entities.hero;
-    if (hero.body.position.y !== this.offsetY) {
-      console.log('HEREs where Y gets set', hero.body.position)
-      this.offsetY = hero.body.position.y;
-    }
   };
 
-  getEntities = (type, direction) => {
-    console.log('TYPE AND DIRECTION here===========>', type, direction);
-    const selectedHero = type == 'attack' ? <WarriorAttack offsetX={this.offsetX} direction={direction} /> :
-      type == 'run' ? <WarriorRun offsetX={this.offsetX} direction={direction} /> :
+  // GameEngine system
+  updateGame = (entities, { dispatch, events, screen, time, touches }) => {
+    // console.log('updated game');
+    let engine = entities.physics.engine;
+    Matter.Engine.update(engine, time.delta);
+    // console.log('hero body y', entities.hero.body.position.y)
+    if (this.state.isRunningLeft || this.state.isRunningRight) {
+      this.run();
+    }
+
+    return entities;
+  }
+
+  getEntities = (type) => {
+    const { direction } = this.state;
+    const selectedHero = type == 'attack' ? <WarriorAttack offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
+      type == 'run' ? <WarriorRun offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
         type == 'jump' ? <WarriorJump offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
           type == 'fall' ? <WarriorFall offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
-            <WarriorIdle offsetX={this.offsetX} direction={direction} />
+            <WarriorIdle offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} />
 
-    console.log('switched entities with offsetX', this.offsetX)
+    console.log(`switched entities with offsetX' ${this.offsetX} and offsetY ${this.offsetY}`);
     this.selectedHero = selectedHero;
-
-    // hero.mass = 75 sets it 
-    console.log('the log', hero)
 
     return {
       physics: { engine: engine, world: world },
       floor: { body: floor, size: [width, boxSize], color: "green", renderer: Floor },
-      // leftWall: { body: leftWall, size: [boxSize, boxSize], color: "red", renderer: LeftWall },
-      // rightWall: { body: rightWall, width: width, size: [boxSize, boxSize], color: "blue", renderer: RightWall },
       hero: {
         body: hero, size: [225, 225], color: 'red', renderer: selectedHero
       }
@@ -282,7 +288,7 @@ export default class GameScene extends Component {
         <GameEngine
           ref={ref => (this.engine = ref)}
           style={styles.gameContainer}
-          systems={[Physics]}
+          systems={[this.updateGame]}
           entities={this.getEntities()}
           onEvent={this.onEvent}
           timer={this.updateHandler()}

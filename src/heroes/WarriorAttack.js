@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { View, Animated } from "react-native";
+import { View, Animated, Dimensions} from "react-native";
 import { array, object, string } from 'prop-types';
 import SpriteSheet from 'rn-sprite-sheet';
-
+const { height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 export default class WarriorAttack extends Component {
 
   constructor(props) {
@@ -14,7 +15,9 @@ export default class WarriorAttack extends Component {
       direction: 'right',
     };
     const value = props && props.renderer ? props.renderer.props.offsetX : 0;
+    this.offsetY = props && props.renderer && props.renderer.props ? props.renderer.props.offsetY : 0;
     this.offsetX = new Animated.Value(value);
+
   }
 
   componentDidMount() {
@@ -63,10 +66,10 @@ export default class WarriorAttack extends Component {
 
   render() {
     // const { left, width, top, height } = this.props.renderer.props;
-    const width = this.props.size && this.props.size[0];
-    const height = this.props.size && this.props.size[1];
+
     const x = this.offsetX.__getValue();
-    const y = this.props.body && this.props.body.position.y - height / 2;
+    // const y = this.props.body && this.props.body.position.y - height / 2;
+    const y = this.offsetY
     return (
       <Animated.View style={{
         transform: [{ translateX: this.offsetX }, { perspective: 1000 }],

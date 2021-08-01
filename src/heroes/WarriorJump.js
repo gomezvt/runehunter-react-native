@@ -3,8 +3,8 @@ import { View, Animated, Dimensions } from "react-native";
 import { array, object, string } from 'prop-types';
 import SpriteSheet from 'rn-sprite-sheet';
 import { EventRegister } from 'react-native-event-listeners'
+const { height } = Dimensions.get('window')
 const { width } = Dimensions.get('window')
-
 export default class WarriorJump extends Component {
 
   constructor(props) {
@@ -17,9 +17,9 @@ export default class WarriorJump extends Component {
     };
     const valueX = props && props.renderer ? props.renderer.props.offsetX : 0;
     this.offsetX = new Animated.Value(valueX);
-    const heroY = props.renderer.props.offsetY;
-    let valueY = props && props.renderer ? heroY / 3 : 0;
-    this.offsetY = new Animated.Value(valueY);
+
+    this.value = props.renderer && props.renderer.props && props.renderer.props.offsetY - 100;
+    this.offsetY = new Animated.Value(this.value);
   }
 
   componentDidMount() {
@@ -27,17 +27,18 @@ export default class WarriorJump extends Component {
     Animated.spring(
       this.offsetY,
       {
-        toValue: -50,
-        useNativeDriver: false,
+        toValue: this.value,
+        useNativeDriver: true,
       },
-    ).start(() => {
-      EventRegister.emit('type', 'fall');
-    });
+    )
+    //   .start(() => {
+    //   EventRegister.emit('type', 'fall');
+    // });
   }
 
-  componentWillUnmount() {
-    EventRegister.removeEventListener(this.listener)
-  }
+  // componentWillUnmount() {
+  //   EventRegister.removeEventListener(this.listener)
+  // }
 
   play = type => {
     const { fps, loop, resetAfterFinish } = this.state;
@@ -82,8 +83,6 @@ export default class WarriorJump extends Component {
   }
 
   render() {
-    const width = this.props.size && this.props.size[0];
-    const height = this.props.size && this.props.size[1];
     const x = this.offsetX.__getValue();
     const y = this.props.offsetY
     return (
