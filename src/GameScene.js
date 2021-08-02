@@ -8,8 +8,6 @@ import {
   StatusBar
 } from 'react-native';
 import Floor from './Floor';
-import LeftWall from './LeftWall';
-import RightWall from './RightWall';
 import WarriorIdle from "./heroes/WarriorIdle";
 import WarriorAttack from './heroes/WarriorAttack';
 import WarriorRun from './heroes/WarriorRun';
@@ -17,7 +15,6 @@ import WarriorJump from './heroes/WarriorJump';
 import WarriorFall from './heroes/WarriorFall';
 
 import { GameEngine } from 'react-native-game-engine';
-import { EventRegister } from 'react-native-event-listeners'
 import Matter from "matter-js";
 
 const { height } = Dimensions.get('window')
@@ -31,29 +28,13 @@ const jumpButton = require('../img/controls/B_BUTTON.png');
 const specialButton = require('../img/controls/X_BUTTON.png');
 
 const boxSize = Math.trunc(Math.max(width, height) * 0.075);
-const hero = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
+const hero = Matter.Bodies.rectangle(100, 100, boxSize, boxSize);
 
 let engine = Matter.Engine.create({ enableSleeping: false });
-// let render = Matter.Render.create({
-//   engine: engine,
-// })
 let floor = Matter.Bodies.rectangle(width / 2, height - 150, width, 50, { isStatic: true });
 let world = engine.world;
 
 Matter.World.add(world, [hero, floor]);
-// Matter.Render.run(render)
-// Matter.Engine.run(engine)
-
-// const Physics = (entities, { time, dispatch }) => {
-//   let engine = entities.physics.engine;
-//   Matter.Engine.update(engine, time.delta);
-//   console.log('hero body y', entities.hero.body.position.y)
-//   if (entities.hero.body.position.y > 184) {
-//     console.log('went up entities.hero.body.position.y', entities.hero.body.position.y)
-//   }
-//   return entities;
-// };
-
 
 export default class GameScene extends Component {
   constructor(props) {
@@ -70,31 +51,13 @@ export default class GameScene extends Component {
     this.offsetY = height / 7
   }
 
-
-
-
   componentDidMount() {
-    this.xlistener = EventRegister.addEventListener('offsetX', (value) => {
-      console.log('check the incoming value', value)
-      this.offsetX = value;
-    });
-    this.typelistener = EventRegister.addEventListener('type', (value) => {
-      console.log('swapping with type', value)
-      this.engine.swap(this.getEntities(value));
-    });
-
     // Matter.Events.on(engine, 'collisionStart', (event) => {
     //   var pairs = event.pairs;
     //   const t = pairs;
     // });
   }
-
-  // componentWillUnmount() {
-  // EventRegister.removeEventListener(this.xlistener)
-  // EventRegister.removeEventListener(this.typelistener)
-  // clearTimeout(this.timer);
-  // }
-
+  
   jump = () => {
     this.engine.swap(this.getEntities('jump')).then(() => {
       setTimeout(() => {
@@ -106,14 +69,6 @@ export default class GameScene extends Component {
       }, 400)
     })
   }
-
-  // fall = () => {
-  //   EventRegister.emit('direction', this.state.direction);
-  //   console.log('direction =====>', this.state.direction)
-  //   if (this.state.direction == undefined) {
-  //     console.log('check undefined')
-  //   }
-  // }
 
   run = () => {
     // this.timer = setTimeout(this.run, 200);
@@ -253,7 +208,10 @@ export default class GameScene extends Component {
     // console.log('updated game');
     let engine = entities.physics.engine;
     Matter.Engine.update(engine, time.delta);
-    // console.log('hero body y', entities.hero.body.position.y)
+    console.log('hero body y', entities.hero.body.position.y)
+
+    entities.hero.body.position.y = this.offsetY
+
     if (this.state.isRunningLeft || this.state.isRunningRight) {
       this.run();
     }
@@ -268,7 +226,6 @@ export default class GameScene extends Component {
         type == 'jump' ? <WarriorJump offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
           type == 'fall' ? <WarriorFall offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
             <WarriorIdle offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} />
-
     console.log(`switched entities with offsetX' ${this.offsetX} and offsetY ${this.offsetY}`);
     this.selectedHero = selectedHero;
 
@@ -276,7 +233,7 @@ export default class GameScene extends Component {
       physics: { engine: engine, world: world },
       floor: { body: floor, size: [width, boxSize], color: "green", renderer: Floor },
       hero: {
-        body: hero, size: [225, 225], color: 'red', renderer: selectedHero
+        body: hero, size: [100, 100], renderer: selectedHero
       }
     };
   };
