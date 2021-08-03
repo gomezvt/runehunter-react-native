@@ -49,6 +49,7 @@ export default class GameScene extends Component {
     this.selectedHero = null;
     this.offsetX = 0;
     this.offsetY = height / 7
+    this.runValue = 0;
   }
 
   componentDidMount() {
@@ -78,19 +79,19 @@ export default class GameScene extends Component {
       console.log('check undefined')
     }
 
-    if (this.state.direction == 'left' && this.offsetX > -25) {
-      this.offsetX -= 1
-      // console.log('offsetX = ', this.offsetX)
-    } else if (this.state.direction == 'left' && this.offsetX <= -25) {
-      // do nothing
-    }
+    // if (this.state.direction == 'left' && this.offsetX > -25) {
+    //   this.offsetX -= 1
+    //   // console.log('offsetX = ', this.offsetX)
+    // } else if (this.state.direction == 'left' && this.offsetX <= -25) {
+    //   // do nothing
+    // }
 
-    if (this.state.direction == 'right' && this.offsetX < width / 2 - 100) {
-      this.offsetX += 1
-      // console.log('offsetX = ', this.offsetX)
-    } else if (this.state.direction == 'right' && this.offsetX >= width / 2 - 100) {
-      // do nothing
-    }
+    // if (this.state.direction == 'right' && this.offsetX < width / 2 - 100) {
+    //   this.offsetX += 1
+    //   // console.log('offsetX = ', this.offsetX)
+    // } else if (this.state.direction == 'right' && this.offsetX >= width / 2 - 100) {
+    //   // do nothing
+    // }
     this.engine.swap(this.getEntities('run')).then(() => {
       console.log(`running ${this.state.direction}`);
     })
@@ -194,7 +195,7 @@ export default class GameScene extends Component {
   }
 
   onEvent = (e) => {
-    console.log('Dispatched event = ', e.type);
+    // console.log('Dispatched event = ', e.type);
     // if (e.type === "game-over") {
     //Alert.alert("Game Over");
     //   this.setState({
@@ -213,8 +214,11 @@ export default class GameScene extends Component {
     let engine = entities.physics.engine;
     Matter.Engine.update(engine, time.delta);
 
-    if (this.state.direction == 'right' && this.offsetX >= width / 2 - 100 ||
-      this.state.direction == 'left' && this.offsetX <= -25) {
+    if (this.state.direction == 'left' && this.offsetX < -25) {
+      console.log('hero body x', entities.hero.body.position.x)
+    }
+
+    if (this.state.direction == 'right' && this.offsetX > width / 2 - 100) {
       console.log('hero body x', entities.hero.body.position.x)
     }
 
@@ -223,9 +227,10 @@ export default class GameScene extends Component {
     }
 
     entities.hero.body.position.y = this.offsetY
-    entities.hero.body.position.x = this.offsetX
+    // entities.hero.body.position.x = this.offsetX
 
     if (this.state.isRunningLeft || this.state.isRunningRight) {
+      // TODO: get run logic to increment and decrement run value here then pass it to the component
       this.run();
     }
 
@@ -235,7 +240,7 @@ export default class GameScene extends Component {
   getEntities = (type) => {
     const { direction } = this.state;
     const selectedHero = type == 'attack' ? <WarriorAttack offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
-      type == 'run' ? <WarriorRun offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
+      type == 'run' ? <WarriorRun runValue={this.runValue} offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
         type == 'jump' ? <WarriorJump offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
           type == 'fall' ? <WarriorFall offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
             <WarriorIdle offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} />

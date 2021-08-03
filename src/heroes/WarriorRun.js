@@ -17,40 +17,42 @@ export default class WarriorRun extends Component {
       direction: 'right',
       width
     };
-    this.value = props && props.renderer && props.renderer.props ? props.renderer.props.offsetX : 0;
+
+    this.direction = props && props.renderer && props.renderer.props ? props.renderer.props.direction : 'right';
     this.offsetY = props && props.renderer && props.renderer.props ? props.renderer.props.offsetY : 0;
-    this.offsetX = new Animated.Value(this.value);
+    
+    const value = props && props.renderer && props.renderer.props ? props.renderer.props.offsetX : 0;
+    this.offsetX = new Animated.Value(value);
   }
 
   componentDidMount() {
     this.play('run');
-    // this.listener = EventRegister.addEventListener('direction', (value) => {
-    // const offsetX = this.offsetX.__getValue();
-    // let runValue = 0;
-    // if (value == 'left' && offsetX > -25) {
-    //   runValue = offsetX - 10
-    // } else if (value == 'left' && offsetX <= -25) {
-    //   runValue = offsetX
-    // }
+  }
 
-    // if (value == 'right' && offsetX < width / 2 - 100) {
-    //   runValue = offsetX + 10
-    // } else if (value == 'right' && offsetX >= width / 2 - 100) {
-    //   runValue = offsetX
-    // }
+  componentDidUpdate(prevProps, props) {
+    const offsetX = this.offsetX.__getValue();
+    let runValue = 0;
+    if (this.direction == 'left' && offsetX > -25) {
+      runValue = offsetX - 5
+    } else if (this.direction == 'left' && offsetX <= -25) {
+      runValue = offsetX
+    }
+
+    if (this.direction == 'right' && offsetX < width / 2 - 100) {
+      runValue = offsetX + 5
+    } else if (this.direction == 'right' && offsetX >= width / 2 - 100) {
+      runValue = offsetX
+    }
+
 
     Animated.spring(
       this.offsetX,
       {
-        toValue: this.value,
+        toValue: runValue,
         useNativeDriver: false,
       },
     )
-
-    //   .start(() => {
-    //   EventRegister.emit('offsetX', runValue);
-    // });
-    // })
+    this.offsetX = new Animated.Value(runValue);
   }
 
   play = type => {
