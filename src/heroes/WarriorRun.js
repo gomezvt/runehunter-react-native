@@ -33,13 +33,13 @@ export default class WarriorRun extends Component {
     const offsetX = this.offsetX.__getValue();
     let runValue = 0;
     if (this.direction == 'left' && offsetX > -25) {
-      runValue = offsetX - 5
+      runValue = offsetX - 1
     } else if (this.direction == 'left' && offsetX <= -25) {
       runValue = offsetX
     }
 
     if (this.direction == 'right' && offsetX < width / 2 - 100) {
-      runValue = offsetX + 5
+      runValue = offsetX + 1
     } else if (this.direction == 'right' && offsetX >= width / 2 - 100) {
       runValue = offsetX
     }
@@ -52,6 +52,9 @@ export default class WarriorRun extends Component {
         useNativeDriver: false,
       },
     )
+    if (this.props && this.props.renderer && this.props.renderer.props && this.props.renderer.props.getOffsetX) {
+      this.props.renderer.props.getOffsetX(this.offsetX.__getValue());
+    }
     this.offsetX = new Animated.Value(runValue);
   }
 

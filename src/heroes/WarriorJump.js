@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Animated, Dimensions } from "react-native";
+import { View, Animated, Dimensions, Easing } from "react-native";
 import { array, object, string } from 'prop-types';
 import SpriteSheet from 'rn-sprite-sheet';
 import { EventRegister } from 'react-native-event-listeners'
@@ -15,11 +15,12 @@ export default class WarriorJump extends Component {
       fps: '16',
       direction: 'right',
     };
-    const valueX = props && props.renderer ? props.renderer.props.offsetX : 0;
-    this.offsetX = new Animated.Value(valueX);
 
-    this.value = props.renderer && props.renderer.props && props.renderer.props.offsetY - 100;
-    this.offsetY = new Animated.Value(this.value);
+    const valueY = props && props.renderer && props.renderer.props ? props.renderer.props.offsetY : 0;
+    this.offsetY = new Animated.Value(valueY);
+
+    const valueX = props && props.renderer && props.renderer.props ? props.renderer.props.offsetX : 0;
+    this.offsetX = new Animated.Value(valueX);
   }
 
   componentDidMount() {
@@ -27,18 +28,12 @@ export default class WarriorJump extends Component {
     Animated.spring(
       this.offsetY,
       {
-        toValue: this.value,
+        toValue: this.offsetY.__getValue() - 75,
         useNativeDriver: true,
       },
     )
-    //   .start(() => {
-    //   EventRegister.emit('type', 'fall');
-    // });
+    this.offsetY = new Animated.Value(this.offsetY.__getValue() - 75);
   }
-
-  // componentWillUnmount() {
-  //   EventRegister.removeEventListener(this.listener)
-  // }
 
   play = type => {
     const { fps, loop, resetAfterFinish } = this.state;
@@ -84,10 +79,10 @@ export default class WarriorJump extends Component {
 
   render() {
     const x = this.offsetX.__getValue();
-    const y = this.props.offsetY
+    const y = this.offsetY.__getValue();
     return (
       <Animated.View style={{
-        transform: [{ translateX: this.offsetX }, { translateY: this.offsetY }, { perspective: 1000 }],
+        transform: [{ translateY: this.offsetY }, { translateX: this.offsetX }, { perspective: 1000 }],
         left: x,
         top: y,
         width: width,

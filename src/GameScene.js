@@ -44,7 +44,9 @@ export default class GameScene extends Component {
       left: 0,
       direction: 'right',
       isRunningLeft: false,
-      isRunningRight: false
+      isRunningRight: false,
+      didJump: false,
+      didAttack: false
     }
     this.selectedHero = null;
     this.offsetX = 0;
@@ -61,11 +63,13 @@ export default class GameScene extends Component {
 
   jump = () => {
     this.engine.swap(this.getEntities('jump')).then(() => {
+      this.setState({ didJump: true })
       console.log('jumping');
       setTimeout(() => {
         this.engine.swap(this.getEntities('fall')).then(() => {
           console.log('falling');
           setTimeout(() => {
+            this.setState({ didJump: false })
             this.idle()
           }, 150)
         })
@@ -146,12 +150,15 @@ export default class GameScene extends Component {
     return (
       <View style={{ flexDirection: 'row', position: 'absolute', right: 0 }}>
         <TouchableOpacity
+          disabled={this.state.didAttack}
           style={{ height: 90, width: 90 }}
           onPress={() => {
             this.engine.swap(this.getEntities('attack')).then(() => {
+              this.setState({ didAttack: true })
               console.log('attacking');
               setTimeout(() => {
                 this.idle();
+                this.setState({ didAttack: false })
               }, 150);
             })
           }}
@@ -159,6 +166,7 @@ export default class GameScene extends Component {
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={attackButton} />
         </TouchableOpacity>
         <TouchableOpacity
+          disabled={this.state.didJump}
           style={{ height: 90, width: 90 }}
           onMoveShouldSetResponder
           onPress={() => {
@@ -237,10 +245,16 @@ export default class GameScene extends Component {
     return entities;
   }
 
+  getOffsetX = (x) => {
+    if (x !== this.offsetX) {
+      this.offsetX = x;
+    }
+  }
+
   getEntities = (type) => {
     const { direction } = this.state;
     const selectedHero = type == 'attack' ? <WarriorAttack offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
-      type == 'run' ? <WarriorRun runValue={this.runValue} offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
+      type == 'run' ? <WarriorRun getOffsetX={this.getOffsetX} offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
         type == 'jump' ? <WarriorJump offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
           type == 'fall' ? <WarriorFall offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
             <WarriorIdle offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} />
