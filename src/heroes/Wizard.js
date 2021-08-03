@@ -31,13 +31,13 @@ export class WizardIdle extends PureComponent {
         fps: Number(fps),
         loop: loop,
         resetAfterFinish: resetAfterFinish,
-        onFinish: () => console.log('hi')
+        onFinish: () => { }
       });
     }
   };
 
   stop = () => {
-    this.wizard.stop(() => console.log('stopped'));
+    this.wizard.stop(() => { })
   };
 
   render() {

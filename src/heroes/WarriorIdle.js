@@ -32,7 +32,7 @@ export default class WarriorIdle extends Component {
         fps: Number(fps),
         loop: loop,
         resetAfterFinish: resetAfterFinish,
-        onFinish: () => console.log('hi')
+        onFinish: () => { }
       });
     }
   };
@@ -42,8 +42,7 @@ export default class WarriorIdle extends Component {
   // }
 
   stop = () => {
-    console.log('stopped')
-    this.warrior.stop(() => console.log('stopped'));
+    this.warrior.stop(() => { });
   };
 
   getSpriteData = () => {

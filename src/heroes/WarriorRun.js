@@ -46,8 +46,6 @@ export default class WarriorRun extends Component {
         useNativeDriver: false,
       },
     )
-    console.log('run component offsetX = ', this.offsetX)
-    console.log('run component value = ', this.value)
 
     //   .start(() => {
     //   EventRegister.emit('offsetX', runValue);
@@ -63,13 +61,13 @@ export default class WarriorRun extends Component {
         fps: Number(fps),
         loop: loop,
         resetAfterFinish: resetAfterFinish,
-        onFinish: () => console.log('hi')
+        onFinish: () => { }
       });
     }
   };
 
   stop = () => {
-    this.warrior.stop(() => console.log('stopped'));
+    this.warrior.stop(() => { });
   };
 
   getSpriteData = () => {

@@ -31,13 +31,13 @@ export class MonkIdle extends PureComponent {
         fps: Number(fps),
         loop: loop,
         resetAfterFinish: resetAfterFinish,
-        onFinish: () => console.log('hi')
+        onFinish: () => { }
       });
     }
   };
 
   stop = () => {
-    this.monk.stop(() => console.log('stopped'));
+    this.monk.stop(() => { });
   };
 
   render() {

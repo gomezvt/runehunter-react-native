@@ -48,13 +48,13 @@ export default class WarriorJump extends Component {
         fps: Number(fps),
         loop: loop,
         resetAfterFinish: resetAfterFinish,
-        onFinish: () => console.log('hi')
+        onFinish: () => { }
       });
     }
   };
 
   stop = () => {
-    this.warrior.stop(() => console.log('stopped'));
+    this.warrior.stop(() => { });
   };
 
   getSpriteData = () => {

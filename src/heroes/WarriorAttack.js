@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Animated, Dimensions} from "react-native";
+import { View, Animated, Dimensions } from "react-native";
 import { array, object, string } from 'prop-types';
 import SpriteSheet from 'rn-sprite-sheet';
 const { height } = Dimensions.get('window')
@@ -32,13 +32,13 @@ export default class WarriorAttack extends Component {
         fps: Number(fps),
         loop: loop,
         resetAfterFinish: resetAfterFinish,
-        onFinish: () => console.log('hi')
+        onFinish: () => { }
       });
     }
   };
 
   stop = () => {
-    this.warrior.stop(() => console.log('stopped'));
+    this.warrior.stop(() => { });
   };
 
   getSpriteData = () => {

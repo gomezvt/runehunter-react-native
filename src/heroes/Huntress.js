@@ -31,13 +31,13 @@ export class HuntressIdle extends PureComponent {
         fps: Number(fps),
         loop: loop,
         resetAfterFinish: resetAfterFinish,
-        onFinish: () => console.log('hi')
+        onFinish: () => { }
       });
     }
   };
 
   stop = () => {
-    this.huntress.stop(() => console.log('stopped'));
+    this.huntress.stop(() => { });
   };
 
   render() {

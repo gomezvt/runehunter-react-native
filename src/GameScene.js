@@ -57,16 +57,18 @@ export default class GameScene extends Component {
     //   const t = pairs;
     // });
   }
-  
+
   jump = () => {
     this.engine.swap(this.getEntities('jump')).then(() => {
+      console.log('jumping');
       setTimeout(() => {
         this.engine.swap(this.getEntities('fall')).then(() => {
+          console.log('falling');
           setTimeout(() => {
             this.idle()
-          }, 100)
+          }, 150)
         })
-      }, 400)
+      }, 150)
     })
   }
 
@@ -78,21 +80,19 @@ export default class GameScene extends Component {
 
     if (this.state.direction == 'left' && this.offsetX > -25) {
       this.offsetX -= 1
-      console.log('offsetX = ', this.offsetX)
+      // console.log('offsetX = ', this.offsetX)
     } else if (this.state.direction == 'left' && this.offsetX <= -25) {
-      // runValue = offsetX
+      // do nothing
     }
 
     if (this.state.direction == 'right' && this.offsetX < width / 2 - 100) {
       this.offsetX += 1
-      console.log('offsetX = ', this.offsetX)
+      // console.log('offsetX = ', this.offsetX)
     } else if (this.state.direction == 'right' && this.offsetX >= width / 2 - 100) {
-      // this.runValue = this.offsetX
+      // do nothing
     }
-
     this.engine.swap(this.getEntities('run')).then(() => {
-      // console.log(`running ${this.state.direction}`);
-      // this.run();
+      console.log(`running ${this.state.direction}`);
     })
   }
 
@@ -147,8 +147,12 @@ export default class GameScene extends Component {
         <TouchableOpacity
           style={{ height: 90, width: 90 }}
           onPress={() => {
-            this.engine.swap(this.getEntities('attack'))
-            setTimeout(() => { this.engine.swap(this.getEntities('idle')) }, 300);
+            this.engine.swap(this.getEntities('attack')).then(() => {
+              console.log('attacking');
+              setTimeout(() => {
+                this.idle();
+              }, 150);
+            })
           }}
         >
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={attackButton} />
@@ -190,7 +194,7 @@ export default class GameScene extends Component {
   }
 
   onEvent = (e) => {
-    console.log('Dispatched event = ', e);
+    console.log('Dispatched event = ', e.type);
     // if (e.type === "game-over") {
     //Alert.alert("Game Over");
     //   this.setState({
@@ -208,9 +212,18 @@ export default class GameScene extends Component {
     // console.log('updated game');
     let engine = entities.physics.engine;
     Matter.Engine.update(engine, time.delta);
-    console.log('hero body y', entities.hero.body.position.y)
+
+    if (this.state.direction == 'right' && this.offsetX >= width / 2 - 100 ||
+      this.state.direction == 'left' && this.offsetX <= -25) {
+      console.log('hero body x', entities.hero.body.position.x)
+    }
+
+    if (this.offsetY !== height / 7) {
+      console.log('hero body y', entities.hero.body.position.y)
+    }
 
     entities.hero.body.position.y = this.offsetY
+    entities.hero.body.position.x = this.offsetX
 
     if (this.state.isRunningLeft || this.state.isRunningRight) {
       this.run();
@@ -226,7 +239,7 @@ export default class GameScene extends Component {
         type == 'jump' ? <WarriorJump offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
           type == 'fall' ? <WarriorFall offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
             <WarriorIdle offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} />
-    console.log(`switched entities with offsetX' ${this.offsetX} and offsetY ${this.offsetY}`);
+    // console.log(`switched entities with offsetX' ${this.offsetX} and offsetY ${this.offsetY}`);
     this.selectedHero = selectedHero;
 
     return {
