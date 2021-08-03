@@ -235,7 +235,7 @@ export default class GameScene extends Component {
     }
 
     entities.hero.body.position.y = this.offsetY
-    // entities.hero.body.position.x = this.offsetX
+    entities.hero.body.position.x = this.offsetX
 
     if (this.state.isRunningLeft || this.state.isRunningRight) {
       // TODO: get run logic to increment and decrement run value here then pass it to the component
