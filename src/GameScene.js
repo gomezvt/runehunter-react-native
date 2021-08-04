@@ -62,110 +62,109 @@ export default class GameScene extends Component {
 
   jump = () => {
     this.engine.swap(this.getEntities('jump')).then(() => {
-      this.setState({ didJump: true })
       console.log('jumping');
+      this.setState({ didJump: true })
       setTimeout(() => {
-        this.engine.swap(this.getEntities('fall')).then(() => {
-          console.log('falling');
-          setTimeout(() => {
-            this.setState({ didJump: false })
-            this.idle()
-          }, 150)
-        })
+        this.fall();
       }, 150)
     })
   }
 
+  fall = () => {
+    this.engine.swap(this.getEntities('fall')).then(() => {
+      console.log('End fall');
+      setTimeout(() => {
+        this.idle()
+        this.setState({ didJump: false })
+      }, 150)
+    })
+  }
+
+  attack = () => {
+    this.engine.swap(this.getEntities('attack')).then(() => {
+      this.setState({ didAttack: true })
+    })
+  }
+
   run = () => {
-    // this.timer = setTimeout(this.run, 200);
-    if (this.state.direction == undefined) {
-      console.log('check undefined')
-    }
-
-    // if (this.state.direction == 'left' && this.offsetX > -25) {
-    //   this.offsetX -= 1
-    //   // console.log('offsetX = ', this.offsetX)
-    // } else if (this.state.direction == 'left' && this.offsetX <= -25) {
-    //   // do nothing
-    // }
-
-    // if (this.state.direction == 'right' && this.offsetX < width / 2 - 100) {
-    //   this.offsetX += 1
-    //   // console.log('offsetX = ', this.offsetX)
-    // } else if (this.state.direction == 'right' && this.offsetX >= width / 2 - 100) {
-    //   // do nothing
-    // }
     this.engine.swap(this.getEntities('run')).then(() => {
       console.log(`running ${this.state.direction}`);
     })
   }
 
   idle = () => {
-    // clearTimeout(this.timer);
     this.engine.swap(this.getEntities('idle')).then(() => {
       console.log('idling');
     })
   }
 
-  renderLeftRightButtons = () => {
+  renderLeftButton = () => {
     const { direction } = this.state;
-    return (
-      <View style={{ flexDirection: 'row' }}>
-        <View onTouchStart={() => {
-          if (direction !== 'left') {
-            this.setState({ direction: 'left', isRunningLeft: true }, () => this.run());
-          } else {
-            this.setState({ isRunningLeft: true }, () => this.run());
-          }
-        }}
-          onTouchEnd={() => this.setState({ isRunningLeft: false }, () => this.idle())}>
-          <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={leftButton} />
-        </View>
-        <View onTouchStart={() => {
-          if (direction !== 'right') {
-            this.setState({ direction: 'right', isRunningRight: true }, () => this.run());
-          } else {
-            this.setState({ isRunningRight: true }, () => this.run());
-          }
-        }}
-          onTouchEnd={() => this.setState({ isRunningRight: false }, () => this.idle())}>
-          <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={rightButton} />
-        </View>
-      </View>
-    )
+    return <View onTouchStart={() => {
+      if (direction !== 'left') {
+        this.setState({ direction: 'left', isRunningLeft: true }, () => this.run());
+      } else {
+        this.setState({ isRunningLeft: true }, () => this.run());
+      }
+    }}
+      onTouchEnd={() => this.setState({ isRunningLeft: false }, () => this.idle())}>
+      <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={leftButton} />
+    </View>
+  }
+
+  renderRightButton = () => {
+    const { direction } = this.state;
+    return <View onTouchStart={() => {
+      if (direction !== 'right') {
+        this.setState({ direction: 'right', isRunningRight: true }, () => this.run());
+      } else {
+        this.setState({ isRunningRight: true }, () => this.run());
+      }
+    }}
+      onTouchEnd={() => this.setState({ isRunningRight: false }, () => this.idle())}>
+      <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={rightButton} />
+    </View>
+  }
+
+  renderAttackButton = () => {
+    return <View onTouchStart={() => {
+      if (!this.state.didAttack) {
+        this.attack();
+      }
+    }}
+      onTouchEnd={() => {
+        setTimeout(() => {
+          this.idle();
+          this.setState({ didAttack: false })
+        }, 150);
+      }}>
+      <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={attackButton} />
+    </View>
+  }
+
+  renderJumpButton = () => {
+    return <View onTouchStart={() => {
+      if (!this.state.didJump) {
+        this.jump();
+      }
+    }}
+      onTouchEnd={() => { }}>
+      <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={jumpButton} />
+    </View>
+  }
+
+  renderSpecialButton = () => {
+    return <View onTouchStart={() => console.log("Start special move")} onTouchEnd={() => console.log('End special move')}>
+      <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={specialButton} />
+    </View>
   }
 
   renderABXButtons = () => {
     return (
       <View style={{ flexDirection: 'row', position: 'absolute', right: 0 }}>
-        <View onTouchStart={() => {
-          if (!this.state.didAttack) {
-            this.engine.swap(this.getEntities('attack')).then(() => {
-              this.setState({ didAttack: true })
-              console.log('attacking');
-
-            })
-          }
-        }}
-          onTouchEnd={() => {
-            setTimeout(() => {
-              this.idle();
-              this.setState({ didAttack: false })
-            }, 150); console.log('Button 2released')
-          }}>
-          <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={attackButton} />
-        </View>
-        <View onTouchStart={() => {
-          if (!this.state.didJump) {
-            this.jump();
-          }
-        }}
-          onTouchEnd={() => console.log('Button 2released')}>
-          <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={jumpButton} />
-        </View>
-        <View onTouchStart={() => console.log("Button 3 Clicked")} onTouchEnd={() => console.log('Button 3released')}>
-          <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={specialButton} />
-        </View>
+        {this.renderAttackButton()}
+        {this.renderJumpButton()}
+        {this.renderSpecialButton()}
       </View >
     );
   }
@@ -203,7 +202,6 @@ export default class GameScene extends Component {
 
   // GameEngine system
   updateGame = (entities, { dispatch, events, screen, time, touches }) => {
-    // console.log('updated game');
     let engine = entities.physics.engine;
     Matter.Engine.update(engine, time.delta);
 
@@ -223,7 +221,6 @@ export default class GameScene extends Component {
     entities.hero.body.position.x = this.offsetX
 
     if (this.state.isRunningLeft || this.state.isRunningRight) {
-      // TODO: get run logic to increment and decrement run value here then pass it to the component
       this.run();
     }
 
@@ -243,7 +240,6 @@ export default class GameScene extends Component {
         type == 'jump' ? <WarriorJump offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
           type == 'fall' ? <WarriorFall offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
             <WarriorIdle offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} />
-    // console.log(`switched entities with offsetX' ${this.offsetX} and offsetY ${this.offsetY}`);
 
     return {
       physics: { engine: engine, world: world },
@@ -270,7 +266,8 @@ export default class GameScene extends Component {
           <StatusBar hidden={true} />
         </GameEngine>
         <View style={{ width: '100%', flexDirection: 'row' }}>
-          {this.renderLeftRightButtons()}
+          {this.renderLeftButton()}
+          {this.renderRightButton()}
           {this.renderABXButtons()}
         </View>
       </>
