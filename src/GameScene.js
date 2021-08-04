@@ -72,7 +72,7 @@ export default class GameScene extends Component {
 
   fall = () => {
     this.engine.swap(this.getEntities('fall')).then(() => {
-      console.log('End fall');
+      console.log('falling');
       setTimeout(() => {
         this.idle()
         this.setState({ didJump: false })
@@ -82,6 +82,7 @@ export default class GameScene extends Component {
 
   attack = () => {
     this.engine.swap(this.getEntities('attack')).then(() => {
+      console.log('attacking');
       this.setState({ didAttack: true })
     })
   }
@@ -96,6 +97,10 @@ export default class GameScene extends Component {
     this.engine.swap(this.getEntities('idle')).then(() => {
       console.log('idling');
     })
+  }
+
+  specialAttack = () => {
+    console.log('powering special attack');
   }
 
   renderLeftButton = () => {
@@ -154,7 +159,7 @@ export default class GameScene extends Component {
   }
 
   renderSpecialButton = () => {
-    return <View onTouchStart={() => console.log("Start special move")} onTouchEnd={() => console.log('End special move')}>
+    return <View onTouchStart={() => this.specialAttack()} onTouchEnd={() => console.log('releasing special attack')}>
       <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={specialButton} />
     </View>
   }
