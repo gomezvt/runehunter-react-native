@@ -30,9 +30,9 @@ const specialButton = require('../img/controls/X_BUTTON.png');
 const boxSize = Math.trunc(Math.max(width, height) * 0.075);
 const hero = Matter.Bodies.rectangle(100, 100, boxSize, boxSize);
 
-let engine = Matter.Engine.create({ enableSleeping: false });
-let floor = Matter.Bodies.rectangle(width / 2, height - 150, width, 50, { isStatic: true });
-let world = engine.world;
+const engine = Matter.Engine.create({ enableSleeping: false });
+const floor = Matter.Bodies.rectangle(width / 2, height - 150, width, 50, { isStatic: true });
+const world = engine.world;
 
 Matter.World.add(world, [hero, floor]);
 
@@ -48,10 +48,9 @@ export default class GameScene extends Component {
       didJump: false,
       didAttack: false
     }
-    this.selectedHero = null;
+
     this.offsetX = 0;
     this.offsetY = height / 7
-    this.runValue = 0;
   }
 
   componentDidMount() {
@@ -259,7 +258,6 @@ export default class GameScene extends Component {
           type == 'fall' ? <WarriorFall offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} /> :
             <WarriorIdle offsetY={this.offsetY} offsetX={this.offsetX} direction={direction} />
     // console.log(`switched entities with offsetX' ${this.offsetX} and offsetY ${this.offsetY}`);
-    this.selectedHero = selectedHero;
 
     return {
       physics: { engine: engine, world: world },
