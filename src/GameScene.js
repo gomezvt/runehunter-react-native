@@ -111,36 +111,26 @@ export default class GameScene extends Component {
     const { direction } = this.state;
     return (
       <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity
-          style={{ height: 90, width: 90 }}
-          onPressIn={() => {
-            if (direction !== 'left') {
-              this.setState({ direction: 'left', isRunningLeft: true }, () => this.run());
-            } else {
-              this.setState({ isRunningLeft: true }, () => this.run());
-            }
-          }}
-          onPressOut={() => {
-            this.setState({ isRunningLeft: false }, () => this.idle());
-          }}
-        >
+        <View onTouchStart={() => {
+          if (direction !== 'left') {
+            this.setState({ direction: 'left', isRunningLeft: true }, () => this.run());
+          } else {
+            this.setState({ isRunningLeft: true }, () => this.run());
+          }
+        }}
+          onTouchEnd={() => this.setState({ isRunningLeft: false }, () => this.idle())}>
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={leftButton} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ height: 90, width: 90 }}
-          onPressIn={() => {
-            if (direction !== 'right') {
-              this.setState({ direction: 'right', isRunningRight: true }, () => this.run());
-            } else {
-              this.setState({ isRunningRight: true }, () => this.run());
-            }
-          }}
-          onPressOut={() => {
-            this.setState({ isRunningRight: false }, () => this.idle());
-          }}
-        >
+        </View>
+        <View onTouchStart={() => {
+          if (direction !== 'right') {
+            this.setState({ direction: 'right', isRunningRight: true }, () => this.run());
+          } else {
+            this.setState({ isRunningRight: true }, () => this.run());
+          }
+        }}
+          onTouchEnd={() => this.setState({ isRunningRight: false }, () => this.idle())}>
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={rightButton} />
-        </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -148,39 +138,35 @@ export default class GameScene extends Component {
   renderABXButtons = () => {
     return (
       <View style={{ flexDirection: 'row', position: 'absolute', right: 0 }}>
-        <TouchableOpacity
-          disabled={this.state.didAttack}
-          style={{ height: 90, width: 90 }}
-          onPress={() => {
+        <View onTouchStart={() => {
+          if (!this.state.didAttack) {
             this.engine.swap(this.getEntities('attack')).then(() => {
               this.setState({ didAttack: true })
               console.log('attacking');
-              setTimeout(() => {
-                this.idle();
-                this.setState({ didAttack: false })
-              }, 150);
+
             })
-          }}
-        >
+          }
+        }}
+          onTouchEnd={() => {
+            setTimeout(() => {
+              this.idle();
+              this.setState({ didAttack: false })
+            }, 150); console.log('Button 2released')
+          }}>
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={attackButton} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          disabled={this.state.didJump}
-          style={{ height: 90, width: 90 }}
-          onMoveShouldSetResponder
-          onPress={() => {
+        </View>
+        <View onTouchStart={() => {
+          if (!this.state.didJump) {
             this.jump();
-          }}
-        >
+          }
+        }}
+          onTouchEnd={() => console.log('Button 2released')}>
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={jumpButton} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => { }}
-          style={{ height: 90, width: 90 }}
-        >
+        </View>
+        <View onTouchStart={() => console.log("Button 3 Clicked")} onTouchEnd={() => console.log('Button 3released')}>
           <Image style={{ opacity: 0.7, height: 90, width: 90 }} source={specialButton} />
-        </TouchableOpacity>
-      </View>
+        </View>
+      </View >
     );
   }
 
